@@ -45,5 +45,10 @@ public partial class BootcampContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
+    internal async Task SavechAngesasync()
+    {
+        throw new NotImplementedException();
+    }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
