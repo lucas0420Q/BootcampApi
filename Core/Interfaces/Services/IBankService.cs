@@ -1,5 +1,5 @@
 ﻿using Core.Models;
-using System.Threading.Tasks;
+using Core.Requests;
 
 namespace Core.Interfaces.Services;
 

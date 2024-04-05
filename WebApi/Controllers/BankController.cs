@@ -1,6 +1,5 @@
-﻿using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
-using Core.Models;
+﻿using Core.Interfaces.Services;
+using Core.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;

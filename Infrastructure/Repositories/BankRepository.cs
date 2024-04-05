@@ -1,9 +1,9 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Models;
+using Core.Requests;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Infrastructure.Repositories;
 
