@@ -9,13 +9,9 @@ public class CustomerDTO
     public string? Address { get; set; }
     public string? Mail { get; set; }
     public string? Phone { get; set; }
+    public int BankId { get; set; }
     public string CustomerStatus { get; set; } = string.Empty;
     public DateTime? Birth { get; set; }
     public BankDTO Bank { get; set; } = null!;
-    public object? FullName { get; set; }
-
-    public static implicit operator CustomerDTO(CustomerDTO v)
-    {
-        throw new NotImplementedException();
-    }
+    public object? BankDTO { get; set; }
 }

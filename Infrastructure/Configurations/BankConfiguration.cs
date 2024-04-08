@@ -1,11 +1,10 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Infrastructure.Configurations
 {
-    public class bankConfiguration : IEntityTypeConfiguration<Bank>
+    public class BankConfiguration : IEntityTypeConfiguration<Bank>
     {
         public void Configure(EntityTypeBuilder<Bank> entity)
         {

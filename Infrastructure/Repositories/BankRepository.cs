@@ -1,8 +1,9 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Models;
-using Core.Requests;
+using Core.Request;
 using Infrastructure.Contexts;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
@@ -18,35 +19,22 @@ public class BankRepository : IBankRepository
 
     public async Task<BankDTO> Add(CreateBankModel model)
     {
-        var banktocreate = new Bank
-        {
-            Name = model.Name,
-            Address = model.Address,
-            Mail = model.Mail,
-            Phone = model.Phone,
-        };
+        var bankToCreate = model.Adapt<Bank>();
 
-        _context.Banks.Add(banktocreate);
+        _context.Banks.Add(bankToCreate);
 
         await _context.SaveChangesAsync();
 
-        var bankdto = new BankDTO
-        {
-            Id = banktocreate.Id,
-            Name = banktocreate.Name,
-            Address = banktocreate.Address,
-            Mail = banktocreate.Mail,
-            Phone = banktocreate.Phone
-        };
+        var bankDTO = bankToCreate.Adapt<BankDTO>();
 
-        return bankdto;
+        return bankDTO;
     }
 
     public async Task<bool> Delete(int id)
     {
         var bank = await _context.Banks.FindAsync(id);
 
-        if (bank is null) throw new Exception("bank not found");
+        if (bank is null) throw new Exception("Bank not found");
 
         _context.Banks.Remove(bank);
 
@@ -59,34 +47,20 @@ public class BankRepository : IBankRepository
     {
         var banks = await _context.Banks.ToListAsync();
 
-        var banksdto = banks.Select(bank => new BankDTO
-        {
-            Id = bank.Id,
-            Name = bank.Name,
-            Address = bank.Address,
-            Mail = bank.Mail,
-            Phone = bank.Phone
-        }).ToList();
+        var banksDTO = banks.Adapt<List<BankDTO>>();
 
-        return banksdto;
+        return banksDTO;
     }
 
     public async Task<BankDTO> GetById(int id)
     {
         var bank = await _context.Banks.FindAsync(id);
 
-        if (bank is null) throw new Exception("bank not found");
+        if (bank is null) throw new Exception("Bank not found");
 
-        var bankdto = new BankDTO
-        {
-            Id = bank.Id,
-            Name = bank.Name,
-            Address = bank.Address,
-            Mail = bank.Mail,
-            Phone = bank.Phone
-        };
+        var bankDTO = bank.Adapt<BankDTO>();
 
-        return bankdto;
+        return bankDTO;
     }
 
     public async Task<bool> NameIsAlreadyTaken(string name)
@@ -98,26 +72,16 @@ public class BankRepository : IBankRepository
     {
         var bank = await _context.Banks.FindAsync(model.Id);
 
-        if (bank is null) throw new Exception("bank was not found");
+        if (bank is null) throw new Exception("Bank was not found");
 
-        bank.Name = model.Name;
-        bank.Address = model.Address;
-        bank.Mail = model.Mail;
-        bank.Phone = model.Phone;
+        model.Adapt(bank);
 
         _context.Banks.Update(bank);
 
         await _context.SaveChangesAsync();
 
-        var bankdto = new BankDTO
-        {
-            Id = bank.Id,
-            Name = bank.Name,
-            Address = bank.Address,
-            Mail = bank.Mail,
-            Phone = bank.Phone
-        };
+        var bankDTO = bank.Adapt<BankDTO>();
 
-        return bankdto;
+        return bankDTO;
     }
 }

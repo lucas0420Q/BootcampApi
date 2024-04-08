@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces.Services;
-using Core.Requests;
+using Core.Request;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Controllers;
 

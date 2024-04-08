@@ -1,16 +1,12 @@
-﻿namespace Core.Requests;
+﻿namespace Core.Request;
 
 public class FilterCustomersModel
 {
     public int? BirthYearFrom { get; set; }
     public int? BirthYearTo { get; set; }
     public string? FullName { get; set; }
-
     public string? DocumentNumber { get; set; }
-
     public string? Mail { get; set; }
-
-    public int? BandId { get; set; }
-
+    public int? BankId { get; set; }
 }
 

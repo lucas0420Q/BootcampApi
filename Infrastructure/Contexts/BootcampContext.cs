@@ -31,7 +31,7 @@ public partial class BootcampContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
 
-        modelBuilder.ApplyConfiguration(new bankConfiguration());
+        modelBuilder.ApplyConfiguration(new BankConfiguration());
 
         modelBuilder.ApplyConfiguration(new SavingAccountConfiguration());
 
@@ -41,13 +41,7 @@ public partial class BootcampContext : DbContext
 
         modelBuilder.ApplyConfiguration(new MovementConfiguration());
 
-
         OnModelCreatingPartial(modelBuilder);
-    }
-
-    internal async Task SavechAngesasync()
-    {
-        throw new NotImplementedException();
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
