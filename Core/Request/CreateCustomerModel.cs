@@ -1,7 +1,10 @@
-﻿namespace Core.Request;
+﻿using Core.Constants;
+
+namespace Core.Request;
 
 public class CreateCustomerModel
 {
+    public int Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
 
@@ -11,13 +14,14 @@ public class CreateCustomerModel
 
     public string? Address { get; set; }
 
-    public string? Mail { get; set; }
+    public string Mail { get; set; } = string.Empty;
 
     public string? Phone { get; set; }
 
-    public int BankId { get; set; }
+    public string CustomerStatus { get; set; } = string.Empty;
 
     public DateTime? Birth { get; set; }
 
-    public string? CustomerStatus { get; set; } = string.Empty;
+    public int BankId { get; set; }
+
 }

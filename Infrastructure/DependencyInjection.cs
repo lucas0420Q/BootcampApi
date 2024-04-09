@@ -43,6 +43,8 @@ public static class DependencyInjection
     {
         services.AddScoped<IBankRepository, BankRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+
 
         return services;
     }
@@ -51,9 +53,13 @@ public static class DependencyInjection
     {
         services.AddScoped<IBankService, BankService>();
         services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<ICurrencyService, CurrencyService>();
+
 
         return services;
     }
+
+
     public static IServiceCollection AddMapping(this IServiceCollection services)
     {
         var config = TypeAdapterConfig.GlobalSettings;
@@ -69,7 +75,6 @@ public static class DependencyInjection
     {
         services.AddFluentValidation();
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
         return services;
     }
 }

@@ -14,7 +14,7 @@ public class Customer
 
     public string? Address { get; set; }
 
-    public string? Mail { get; set; }
+    public string Mail { get; set; } = string.Empty;
 
     public string? Phone { get; set; }
 
@@ -25,5 +25,4 @@ public class Customer
 
     public virtual Bank Bank { get; set; } = null!;
     public ICollection<Account> Accounts { get; set; } = new List<Account>();
-    public object BankDTO { get; set; }
 }
