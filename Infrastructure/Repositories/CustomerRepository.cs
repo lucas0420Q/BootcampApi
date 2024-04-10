@@ -31,7 +31,7 @@ public class CustomerRepository : ICustomerRepository
     }
 
 
-    public async Task<List<CustomerDTO>> GetFiltered(FilterCustomersModel filter)
+    public async Task<List<CustomerDTO>> GetFiltered(FilterCustomerModel filter)
     {
         var query = _context.Customers
             .Include(c => c.Bank)

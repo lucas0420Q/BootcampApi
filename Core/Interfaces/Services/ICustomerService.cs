@@ -5,7 +5,7 @@ namespace Core.Interfaces.Services;
 
 public interface ICustomerService
 {
-    Task<List<CustomerDTO>> GetFiltered(FilterCustomersModel filter);
+    Task<List<CustomerDTO>> GetFiltered(FilterCustomerModel filter);
     Task<CustomerDTO> Add(CreateCustomerModel model);
     Task<CustomerDTO> GetById(int id);
     Task<CustomerDTO> Update(UpdateCustomerModel model);

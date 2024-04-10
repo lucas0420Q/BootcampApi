@@ -8,6 +8,8 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
 {
     public void Configure(EntityTypeBuilder<Currency> entity)
     {
+        entity.ToTable("Currency");
+
         entity
             .HasKey(e => e.Id)
             .HasName("Currency_pkey");
@@ -28,5 +30,10 @@ public class CurrencyConfiguration : IEntityTypeConfiguration<Currency>
             .HasMany(currency => currency.Accounts)
             .WithOne(account => account.Currency)
             .HasForeignKey(account => account.CurrencyId);
+
+        entity
+            .HasMany(x => x.CreditCards)
+            .WithOne(x => x.Currency)
+            .HasForeignKey(x => x.CurrencyId);
     }
 }

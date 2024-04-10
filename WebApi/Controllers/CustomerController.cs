@@ -14,7 +14,7 @@ public class CustomerController : BaseApiController
     }
 
     [HttpGet("filtered")]
-    public async Task<IActionResult> GetFiltered([FromQuery] FilterCustomersModel filter)
+    public async Task<IActionResult> GetFiltered([FromQuery] FilterCustomerModel filter)
     {
         var customers = await _customerService.GetFiltered(filter);
         return Ok(customers);

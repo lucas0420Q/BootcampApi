@@ -1,6 +1,6 @@
 ﻿namespace Core.Request;
 
-public class FilterCustomersModel
+public class FilterCustomerModel
 {
     public int? BirthYearFrom { get; set; }
     public int? BirthYearTo { get; set; }

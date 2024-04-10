@@ -42,7 +42,7 @@ public class CustomerService : ICustomerService
 
     }
 
-    public async Task<List<CustomerDTO>> GetFiltered(FilterCustomersModel filter)
+    public async Task<List<CustomerDTO>> GetFiltered(FilterCustomerModel filter)
     {
         return await _customerRepository.GetFiltered(filter);
     }

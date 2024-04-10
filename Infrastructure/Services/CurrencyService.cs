@@ -2,42 +2,40 @@
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.Request;
+using Core.Requests;
+using Infrastructure.Repositories;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services;
+
+public class CurrencyService : ICurrencyService
 {
+    private readonly ICurrencyRepository _repository;
 
-    public class CurrencyService : ICurrencyService
+    public CurrencyService(ICurrencyRepository repository)
     {
-        private readonly ICurrencyRepository _currencyRepository;
+        _repository = repository;
+    }
 
-        public CurrencyService(ICurrencyRepository currencyRepository)
-        {
-            _currencyRepository = currencyRepository;
-        }
+    public async Task<CurrencyDTO> Add(CreateCurrencyModel model)
+    {
 
-        public async Task<CurrencyDTO> Add(CreateCurrencyModel model)
-        {
-            throw new NotImplementedException();
-        }
+        return await _repository.Add(model);
+    }
 
-        public Task<bool> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<CustomerDTO>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CurrencyDTO> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CustomerDTO> Update(UpdateCustomerModel model)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task<List<CurrencyDTO>> GetFiltered(FilterCurrencyModel filter)
+    {
+        return await _repository.GetFiltered(filter);
+    }
+    public async Task<CurrencyDTO> GetById(int id)
+    {
+        return await _repository.GetById(id);
+    }
+    public async Task<bool> Delete(int id)
+    {
+        return await _repository.Delete(id);
+    }
+    public async Task<CurrencyDTO> Update(UpdateCurrencyModel model)
+    {
+        return await _repository.Update(model);
     }
 }

@@ -99,6 +99,71 @@ namespace Infrastructure.Migrations
                     b.ToTable("Bank", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Entities.CreditCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AvailableCredit")
+                        .HasPrecision(20, 5)
+                        .HasColumnType("numeric(20,5)");
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<int>("CreditCardStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("CreditLimit")
+                        .HasPrecision(20, 5)
+                        .HasColumnType("numeric(20,5)");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("CurrentDebt")
+                        .HasPrecision(20, 5)
+                        .HasColumnType("numeric(20,5)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Cvv")
+                        .HasMaxLength(10)
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Designation")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("ExpirationDT")
+                        .HasMaxLength(100)
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("InterestRate")
+                        .HasPrecision(20, 5)
+                        .HasColumnType("numeric(20,5)");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasMaxLength(100)
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id")
+                        .HasName("CreditCard_pkey");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("CreditCards");
+                });
+
             modelBuilder.Entity("Core.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
@@ -108,18 +173,25 @@ namespace Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("BuyValue")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric(20,5)");
+
+                    b.Property<int?>("CreditCardId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<decimal>("SellValue")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric(20,5)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("Currency_pkey");
 
-                    b.ToTable("Currency");
+                    b.HasIndex("CreditCardId");
+
+                    b.ToTable("Currency", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.CurrentAccount", b =>
@@ -174,6 +246,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("Birth")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("CreditCardId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("CustomerStatus")
                         .HasColumnType("integer");
 
@@ -187,6 +262,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Mail")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -200,11 +276,13 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id")
-                        .HasName("Customer_pkey");
+                        .HasName("Customers_pkey");
 
                     b.HasIndex("BankId");
 
-                    b.ToTable("Customer", (string)null);
+                    b.HasIndex("CreditCardId");
+
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Movement", b =>
@@ -289,6 +367,32 @@ namespace Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("Core.Entities.CreditCard", b =>
+                {
+                    b.HasOne("Core.Entities.Currency", "Currency")
+                        .WithMany("CreditCards")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Customer", "Customer")
+                        .WithMany("CreditCards")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Core.Entities.Currency", b =>
+                {
+                    b.HasOne("Core.Entities.CreditCard", null)
+                        .WithMany("currency")
+                        .HasForeignKey("CreditCardId");
+                });
+
             modelBuilder.Entity("Core.Entities.CurrentAccount", b =>
                 {
                     b.HasOne("Core.Entities.Account", "Account")
@@ -307,6 +411,10 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Entities.CreditCard", null)
+                        .WithMany("customers")
+                        .HasForeignKey("CreditCardId");
 
                     b.Navigation("Bank");
                 });
@@ -347,14 +455,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("Customers");
                 });
 
+            modelBuilder.Entity("Core.Entities.CreditCard", b =>
+                {
+                    b.Navigation("currency");
+
+                    b.Navigation("customers");
+                });
+
             modelBuilder.Entity("Core.Entities.Currency", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("CreditCards");
                 });
 
             modelBuilder.Entity("Core.Entities.Customer", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("CreditCards");
                 });
 #pragma warning restore 612, 618
         }
