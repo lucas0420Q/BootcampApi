@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.Constants;
+using Core.Entities;
 using Core.Request;
 using FluentValidation;
 
@@ -9,46 +10,38 @@ namespace Infrastructure.Validations
         public CreateCreditCardValidation()
         {
             RuleFor(x => x.Designation)
-                .MaximumLength(50).WithMessage("La designación no puede tener más de 50 caracteres.");
-
+        .NotNull().WithMessage("Designation cannot be null")
+        .NotEmpty().WithMessage("Designation cannot be empty");
             RuleFor(x => x.IssueDate)
-                .NotEmpty().WithMessage("La fecha de emisión no puede estar vacía.")
-                .LessThanOrEqualTo(DateTime.Now).WithMessage("La fecha de emisión debe ser anterior o igual a la fecha actual.");
-
+                .NotNull().WithMessage("IssueDate cannot be null")
+                .NotEmpty().WithMessage("IssueDate cannot be empty");
             RuleFor(x => x.ExpirationDate)
-                .NotEmpty().WithMessage("La fecha de vencimiento no puede estar vacía.")
-                .GreaterThanOrEqualTo(DateTime.Now).WithMessage("La fecha de vencimiento debe ser posterior o igual a la fecha actual.");
-
+                .NotNull().WithMessage("ExpirationDate cannot be null")
+                .NotEmpty().WithMessage("ExpirationDate cannot be empty");
             RuleFor(x => x.CardNumber)
-                .NotEmpty().WithMessage("El número de tarjeta no puede estar vacío.")
-                .GreaterThan(0).WithMessage("El número de tarjeta debe ser mayor que 0.");
-
-            RuleFor(x => x.CVV)
-                .NotEmpty().WithMessage("El CVV no puede estar vacío.")
-                .GreaterThan(0).WithMessage("El CVV debe ser mayor que 0.");
-
+                .NotNull().WithMessage("CardNumber cannot be null")
+                .NotEmpty().WithMessage("CardNumber cannot be empty");
+            RuleFor(x => x.Cvv)
+                .NotNull().WithMessage("Cvv cannot be null")
+                .NotEmpty().WithMessage("Cvv cannot be empty")
+                .Must(w => w.ToString().Length >= 3 && w.ToString().Length <= 4)
+                .WithMessage("CVV must be between 3 and 4 digits"); ;
+            RuleFor(x => x.CreditCardStatus)
+                .Must(x => Enum.IsDefined(typeof(CreditCardStatus), x))
+                .WithMessage("Invalid CreditCard Status");
             RuleFor(x => x.CreditLimit)
-                .GreaterThan(0).WithMessage("El límite de crédito debe ser mayor que 0.");
-
-            RuleFor(x => x.AvaibleCredit)
-                .GreaterThanOrEqualTo(0).WithMessage("El crédito disponible no puede ser negativo.");
-
-            RuleFor(x => x.CurrentDebt)
-                .GreaterThanOrEqualTo(0).WithMessage("La deuda actual no puede ser negativa.");
+                .NotNull().WithMessage("CreditLimit cannot be null")
+                .NotEmpty().WithMessage("CreditLimit cannot be empty");
+            RuleFor(x => x.CreditLimit)
+                .NotNull().WithMessage("Credit Limit cannot be null")
+                .GreaterThan(0).WithMessage("Credit Limit must be greater than zero.");
+            RuleFor(x => x.AvailableCredit)
+                .NotNull().WithMessage("Available Credit cannot be null")
+                .GreaterThan(500000).WithMessage("Interest must be greater than five hundred thousand.");
 
             RuleFor(x => x.InterestRate)
-                .GreaterThanOrEqualTo(0).WithMessage("La tasa de interés no puede ser negativa.");
-
-            RuleFor(x => x.CustomerId)
-                .NotEmpty().WithMessage("El ID del cliente no puede estar vacío.")
-                .GreaterThan(0).WithMessage("El ID del cliente debe ser mayor que 0.");
-
-            RuleFor(x => x.CurrencyId)
-                .NotEmpty().WithMessage("El ID de la moneda no puede estar vacío.")
-                .GreaterThan(0).WithMessage("El ID de la moneda debe ser mayor que 0.");
-
-            RuleFor(x => x.CreditCardStatus)
-                .MaximumLength(50).WithMessage("El estado de la tarjeta de crédito no puede tener más de 50 caracteres.");
+                .NotNull().WithMessage("Interest Rate cannot be null")
+                .GreaterThan(0).WithMessage("Interest must be greater than zero.");
         }
     }
 }

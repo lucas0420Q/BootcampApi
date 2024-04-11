@@ -1,39 +1,42 @@
-﻿using Core.Interfaces.Repositories;
+﻿using Core.Exceptions;
+using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.Request;
+using Infrastructure.Repositories;
 
 namespace Infrastructure.Services;
+
 public class CreditCardService : ICreditCardService
 {
-    private readonly ICreditCardRepository? _creditcardRepository;
-    //public CreditCardService(ICreditCardRepository creditcardRepository);
-
-    //_creditcardRepository creditcardRepository;
-
-    public Task<List<CreditCardDTO>> GetFiltered(FilterCreditCardModel filter)
+    private readonly ICreditCardRepository _creditCardRepository;
+    public CreditCardService(ICreditCardRepository creditCardRepository)
     {
-        throw new NotImplementedException();
+        _creditCardRepository = creditCardRepository;
+    }
+    public async Task<CreditCardDTO> Add(CreateCreditCardModel model)
+    {
+        return await _creditCardRepository.Add(model);
     }
 
-    public Task<CreditCardDTO> Add(CreateCreditCardModel model)
+    public async Task<bool> Delete(int id)
     {
-        throw new NotImplementedException();
+        return await _creditCardRepository.Delete(id);
     }
 
-    public Task<CreditCardDTO> GetById(int id)
+    public async Task<CreditCardDTO> GetById(int id)
     {
-        throw new NotImplementedException();
+        return await _creditCardRepository.GetById(id);
     }
 
-    public Task<CreditCardDTO> Update(UpdateCreditCardModel model)
+    public async Task<List<CreditCardDTO>> GetFiltered(FilterCreditCardModel filter)
     {
-        throw new NotImplementedException();
+        return await _creditCardRepository.GetFiltered(filter);
     }
 
-    public Task<bool> Delete(int id)
+    public async Task<CreditCardDTO> Update(UpdateCreditCardModel model)
     {
-        throw new NotImplementedException();
+        return await _creditCardRepository.Update(model);
     }
 }
 

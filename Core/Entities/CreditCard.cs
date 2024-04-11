@@ -21,5 +21,6 @@ namespace Core.Entities
         public Customer Customer { get; set; } = null!;
         public ICollection<Customer>? customers { get; set; }
         public ICollection<Currency>? currency { get; set; }
+        public object ExpirationDate { get; set; }
     }
 }
