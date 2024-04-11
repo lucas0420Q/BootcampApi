@@ -14,10 +14,8 @@ namespace Infrastructure.Configurations
 
             entity
                 .HasOne(SavingAccount => SavingAccount.Account)
-            .WithMany(Account => Account.SavingAccounts)
-            .HasForeignKey(Account => Account.AccountId);
-
-
+            .WithOne(p => p.SavingAccount)
+            .HasForeignKey<SavingAccount>(d => d.AccountId);
         }
     }
 }

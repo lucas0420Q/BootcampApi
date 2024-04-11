@@ -18,8 +18,8 @@ namespace Infrastructure.Configurations
 
             entity
             .HasOne(CurrentAccount => CurrentAccount.Account)
-            .WithMany(Account => Account.CurrentAccounts)
-            .HasForeignKey(Account => Account.AccountId);
+              .WithOne(p => p.CurrentAccount)
+            .HasForeignKey<CurrentAccount>(d => d.AccountId);
         }
     }
 }

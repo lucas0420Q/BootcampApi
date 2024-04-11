@@ -25,7 +25,7 @@ namespace Infrastructure.Configurations
                     .IsRequired();
 
                 entity
-                    .Property(e => e.ExpirationDT)
+                    .Property(e => e.ExpirationDate)
                     .HasMaxLength(100)
                     .IsRequired();
 

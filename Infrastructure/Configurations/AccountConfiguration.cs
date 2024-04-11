@@ -24,18 +24,18 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasForeignKey(account => account.CustomerId);
 
         entity
-            .HasMany(account => account.Movements)
-            .WithOne(movement => movement.Account)
-            .HasForeignKey(movement => movement.AccountId);
-
-        entity
-            .HasMany(account => account.CurrentAccounts)
-            .WithOne(currentAccount => currentAccount.Account)
-            .HasForeignKey(account => account.AccountId);
-
-        entity
-            .HasMany(account => account.SavingAccounts)
+           .HasOne(account => account.SavingAccount)
             .WithOne(savingAccount => savingAccount.Account)
-            .HasForeignKey(account => account.AccountId);
+            .HasForeignKey<SavingAccount>(savingAccount => savingAccount.AccountId);
+
+        entity
+              .HasOne(account => account.CurrentAccount)
+            .WithOne(savingAccount => savingAccount.Account)
+            .HasForeignKey<CurrentAccount>(savingAccount => savingAccount.AccountId);
+
+        entity
+           .HasOne(account => account.CurrentAccount)
+            .WithOne(savingAccount => savingAccount.Account)
+           .HasForeignKey<CurrentAccount>(savingAccount => savingAccount.AccountId);
     }
 }
