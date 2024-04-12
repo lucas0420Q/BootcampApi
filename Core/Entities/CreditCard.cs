@@ -18,8 +18,8 @@ namespace Core.Entities
         public int CustomerId { get; set; }
         public int CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
-        public Customer Customer { get; set; } = null!;
-        public ICollection<Customer>? customers { get; set; }
+        public Customers Customer { get; set; } = null!;
+        public ICollection<Customers>? customers { get; set; }
         public ICollection<Currency>? currency { get; set; }
     }
 }

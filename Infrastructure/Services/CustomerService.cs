@@ -2,53 +2,46 @@
 using Core.Interfaces.Services;
 using Core.Models;
 using Core.Request;
+using Infrastructure.Repositories;
 
 namespace Infrastructure.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly ICustomerRepository _repository;
 
-    public CustomerService(ICustomerRepository customerRepository)
+    public CustomerService(ICustomerRepository repository)
     {
-        _customerRepository = customerRepository;
-    }
-
-    public async Task<CustomerDTO> Add(CreateCustomerModel model)
-    {
-        bool nameIsInUse = await _customerRepository.NameIsAlreadyTaken(model.Name);
-
-        if (nameIsInUse)
-        {
-            throw new Exception("Name is already in use");
-        }
-
-        return await _customerRepository.Add(model);
-    }
-
-    public async Task<bool> Delete(int id)
-    {
-        return await _customerRepository.Delete(id);
-    }
-
-    public async Task<List<CustomerDTO>> GetAll()
-    {
-        return await _customerRepository.GetAll();
-    }
-
-    public async Task<CustomerDTO> GetById(int id)
-    {
-        return await _customerRepository.GetById(id);
-
+        _repository = repository;
     }
 
     public async Task<List<CustomerDTO>> GetFiltered(FilterCustomerModel filter)
     {
-        return await _customerRepository.GetFiltered(filter);
+        return await _repository.GetFiltered(filter);
     }
+    public async Task<CustomerDTO> Add(CreateCustomerModel model)
+    {
+
+        return await _repository.Add(model);
+    }
+
 
     public async Task<CustomerDTO> Update(UpdateCustomerModel model)
     {
-        return await _customerRepository.Update(model);
+        var updatedCustomer = await _repository.Update(model);
+
+        return updatedCustomer;
     }
+    public async Task<bool> Delete(int id)
+    {
+        return await _repository.Delete(id);
+    }
+
+
+    public async Task<CustomerDTO> GetById(int id)
+    {
+        return await _repository.GetById(id);
+    }
+
+
 }

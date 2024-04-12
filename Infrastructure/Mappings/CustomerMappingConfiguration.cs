@@ -6,11 +6,12 @@ using Mapster;
 
 namespace Infrastructure.Mappings;
 
-public class CustomerMappingConfiguration
+public class CustomerMappingConfiguration : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CreateCustomerModel, Customer>()
+
+        config.NewConfig<CreateCustomerModel, Customers>()
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Lastname, src => src.Lastname)
             .Map(dest => dest.DocumentNumber, src => src.DocumentNumber)
@@ -21,16 +22,18 @@ public class CustomerMappingConfiguration
             .Map(dest => dest.Birth, src => src.Birth)
             .Map(dest => dest.BankId, src => src.BankId);
 
-        config.NewConfig<Customer, CustomerDTO>()
-            .Map(dest => dest.Id, src => src.Id)
-            .Map(dest => dest.Name, src => src.Name)
-            .Map(dest => dest.Lastname, src => src.Lastname)
-            .Map(dest => dest.DocumentNumber, src => src.DocumentNumber)
-            .Map(dest => dest.Address, src => src.Address)
-            .Map(dest => dest.Mail, src => src.Mail)
-            .Map(dest => dest.Phone, src => src.Phone)
-            .Map(dest => dest.CustomerStatus, src => src.CustomerStatus)
-            .Map(dest => dest.Bank, src => src.Bank)
-            .Map(dest => dest.Birth, src => src.Birth);
+
+        config.NewConfig<Customers, CustomerDTO>()
+                .Map(dest => dest.Id, src => src.Id)
+                .Map(dest => dest.Name, src => src.Name)
+                .Map(dest => dest.Lastname, src => src.Lastname)
+                .Map(dest => dest.DocumentNumber, src => src.DocumentNumber)
+                .Map(dest => dest.Address, src => src.Address)
+                .Map(dest => dest.Mail, src => src.Mail)
+                .Map(dest => dest.Phone, src => src.Phone)
+                .Map(dest => dest.CustomerStatus, src => src.CustomerStatus)
+                .Map(dest => dest.Birth, src => src.Birth)
+                .Map(dest => dest.Bank, src => src.Bank);
     }
+
 }

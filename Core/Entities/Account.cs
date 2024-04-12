@@ -15,7 +15,9 @@ public class Account
     public Currency Currency { get; set; } = null!;
     
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; } = null!;
+    public Customers Customers { get; set; } = null!;
+
+    public bool IsDelete { get; set; } = false;
 
     public SavingAccount? SavingAccount { get; set; }
     public CurrentAccount? CurrentAccount { get; set; }

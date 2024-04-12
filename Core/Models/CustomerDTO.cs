@@ -1,4 +1,6 @@
-﻿namespace Core.Models;
+﻿using Core.Constants;
+
+namespace Core.Models;
 
 public class CustomerDTO
 {
@@ -10,8 +12,11 @@ public class CustomerDTO
     public string? Mail { get; set; }
     public string? Phone { get; set; }
     public int BankId { get; set; }
-    public string CustomerStatus { get; set; } = string.Empty;
+
+
+    public string? CustomerStatus { get; set; }
+
+
     public DateTime? Birth { get; set; }
     public BankDTO Bank { get; set; } = null!;
-    public object? BankDTO { get; set; }
 }

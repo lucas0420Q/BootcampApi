@@ -19,7 +19,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasForeignKey(account => account.CurrencyId);
 
         entity
-            .HasOne(account => account.Customer)
+            .HasOne(account => account.Customers)
             .WithMany(customer => customer.Accounts)
             .HasForeignKey(account => account.CustomerId);
 
