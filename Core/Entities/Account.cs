@@ -15,11 +15,12 @@ public class Account
     public Currency Currency { get; set; } = null!;
     
     public int CustomerId { get; set; }
-    public Customers Customers { get; set; } = null!;
+    public Customer Customer { get; set; } = null!;
 
     public bool IsDelete { get; set; } = false;
 
     public SavingAccount? SavingAccount { get; set; }
     public CurrentAccount? CurrentAccount { get; set; }
     public virtual ICollection<Movement> Movements { get; set; } = new List<Movement>();
+    public IsDeletedStatus IsDeleted { get; set; } = IsDeletedStatus.False;
 }

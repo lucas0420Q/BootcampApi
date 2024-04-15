@@ -1,14 +1,11 @@
 ﻿using Core.Models;
-using Core.Request;
+using Core.Requests;
 
-namespace Core.Interfaces.Services
+namespace Core.Interfaces.Services;
+
+public interface IAccountService
 {
-
-    public interface IAccountService
-    {
-        Task<AccountDTO> Add(CreateAccountModel filter);
-        Task<AccountDTO> Update(UpdateAccountModel filter);
-        Task<bool> Delete(int id);
-    }
+    Task<AccountDTO> Create(CreateAccountRequest request);
+    Task<AccountDTO> GetById(int id);
 }
 

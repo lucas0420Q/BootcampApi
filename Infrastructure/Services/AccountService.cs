@@ -1,30 +1,21 @@
 ﻿using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
-using Core.Request;
-using Infrastructure.Repositories;
+using Core.Requests;
 
 namespace Infrastructure.Services;
+
 public class AccountService : IAccountService
 {
-    private readonly IAccountRepository _accountRepository;
+    private readonly IAccountRepository _repository;
 
-    public AccountService(IAccountRepository accountRepository)
+    public AccountService(IAccountRepository repository)
     {
-        _accountRepository = accountRepository;
-    }
-
-    public async Task<AccountDTO> Add(CreateAccountModel filter)
-    {
-        return await _accountRepository.Add(filter);
-    }
-    public async Task<AccountDTO> Update(UpdateAccountModel filter)
-    {
-        return await _accountRepository.Update(filter);
-    }
-    public async Task<bool> Delete(int id)
-    {
-        return await _accountRepository.Delete(id);
+        _repository = repository;
     }
 
+    public async Task<AccountDTO> Create(CreateAccountRequest request)
+        => await _repository.Create(request);
+
+    public async Task<AccountDTO> GetById(int id) => await _repository.GetById(id);
 }

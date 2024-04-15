@@ -1,34 +1,24 @@
 ﻿using Core.Interfaces.Services;
-using Core.Request;
+using Core.Requests;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+public class AccountController : BaseApiController
 {
-    public class AccountController : BaseApiController
+    private readonly IAccountService _accountService;
+
+    public AccountController(IAccountService accountService)
     {
-
-
-        private readonly IAccountService _service;
-
-        public AccountController(IAccountService service)
-        {
-            _service = service;
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateAccountModel filter)
-        {
-            return Ok(await _service.Add(filter));
-        }
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateAccountModel filter)
-        {
-            return Ok(await _service.Update(filter));
-        }
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromRoute] int id)
-        {
-            return Ok(await _service.Delete(id));
-        }
+        _accountService = accountService;
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+        => Ok(await _accountService.GetById(id));
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateAccountRequest request)
+        => Ok(await _accountService.Create(request));
 }
 

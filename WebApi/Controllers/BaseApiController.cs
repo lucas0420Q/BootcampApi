@@ -7,4 +7,5 @@ namespace WebApi.Controllers;
 //[Authorize]
 public class BaseApiController : ControllerBase
 {
+  
 }

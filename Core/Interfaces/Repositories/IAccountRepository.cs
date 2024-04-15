@@ -1,13 +1,10 @@
 ﻿using Core.Models;
-using Core.Request;
+using Core.Requests;
 
 namespace Core.Interfaces.Repositories;
 
-
 public interface IAccountRepository
 {
-    Task<AccountDTO> Add(CreateAccountModel filter);
-    Task<AccountDTO> Update(UpdateAccountModel model);
-    Task<bool> Delete(int id);
-
+    Task<AccountDTO> Create(CreateAccountRequest request);
+    Task<AccountDTO> GetById(int id);
 }

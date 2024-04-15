@@ -2,7 +2,7 @@
 
 namespace Core.Entities;
 
-public class Customers
+public class Customer
 {
     public int Id { get; set; }
 
