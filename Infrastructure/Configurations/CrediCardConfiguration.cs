@@ -35,7 +35,7 @@ namespace Infrastructure.Configurations
                     .IsRequired();
 
                 entity
-                        .Property(e => e.Cvv)
+                        .Property(e => e.CVV)
                         .HasMaxLength(10)
                         .IsRequired();
                 entity
@@ -44,7 +44,7 @@ namespace Infrastructure.Configurations
                         .IsRequired();
 
                 entity
-                        .Property(e => e.AvailableCredit)
+                        .Property(e => e.AvaibleCredit)
                         .HasPrecision(20, 5)
                         .IsRequired();
                 entity

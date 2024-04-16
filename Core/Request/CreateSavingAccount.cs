@@ -1,6 +1,6 @@
 ﻿using Core.Constants;
 
-namespace Core.Requests;
+namespace Core.Request;
 
 public class CreateSavingAccount
 {

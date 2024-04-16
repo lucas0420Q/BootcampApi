@@ -3,9 +3,9 @@
     public class UpdatePromotionModel
     {
         public int Id { get; set; }
-        public string? Nombre { get; set; }
-        public string? Duracion { get; set; }
-        public int PorcentajeDescuento { get; set; }
-        public List<int>? BusinessId { get; set; } // Lista de IDs de empresas asociadas
+        public string Name { get; set; } = string.Empty;
+        public DateTime? DurationTime { get; set; }
+        public decimal PercentageOff { get; set; }
+        public int BusinessId { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace Core.Models;
+﻿using Core.Entities;
+namespace Core.Request;
 
-public class BusinessDTO
+public class CreateEnterpriseModel
 {
-    public int Id { get; set; }
     public string? Name { get; set; }
     public string? Address { get; set; }
     public string? Phone { get; set; }

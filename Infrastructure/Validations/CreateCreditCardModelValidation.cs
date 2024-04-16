@@ -21,7 +21,7 @@ namespace Infrastructure.Validations
             RuleFor(x => x.CardNumber)
                 .NotNull().WithMessage("CardNumber cannot be null")
                 .NotEmpty().WithMessage("CardNumber cannot be empty");
-            RuleFor(x => x.Cvv)
+            RuleFor(x => x.CVV)
                 .NotNull().WithMessage("Cvv cannot be null")
                 .NotEmpty().WithMessage("Cvv cannot be empty")
                 .Must(w => w.ToString().Length >= 3 && w.ToString().Length <= 4)
@@ -35,7 +35,7 @@ namespace Infrastructure.Validations
             RuleFor(x => x.CreditLimit)
                 .NotNull().WithMessage("Credit Limit cannot be null")
                 .GreaterThan(0).WithMessage("Credit Limit must be greater than zero.");
-            RuleFor(x => x.AvailableCredit)
+            RuleFor(x => x.AvaibleCredit)
                 .NotNull().WithMessage("Available Credit cannot be null")
                 .GreaterThan(500000).WithMessage("Interest must be greater than five hundred thousand.");
 

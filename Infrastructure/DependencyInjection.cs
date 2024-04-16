@@ -1,4 +1,5 @@
-﻿using Core.Interfaces.Repositories;
+﻿using Core.Entities;
+using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -46,6 +47,8 @@ public static class DependencyInjection
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
         services.AddScoped<ICreditCardRepository, CreditCardRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IPromotionRepository, PromotionRepository>();
+        services.AddScoped<IEnterpriseRepository, EnterpriseRepository>();
 
         return services;
     }
@@ -58,6 +61,8 @@ public static class DependencyInjection
         services.AddScoped<ICreditCardService, CreditCardService>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped <IPromotionService, PromotionService>();
+        services.AddScoped<IEnterpriseService, EnterpriseService>();
 
         return services;
     }

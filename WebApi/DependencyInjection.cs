@@ -31,10 +31,13 @@ public static class DependencyInjection
                 {
                     ValidateIssuer = true,
                     ValidIssuer = configuration["Jwt:Issuer"],
+
                     ValidateAudience = true,
                     ValidAudience = configuration["Jwt:Audience"],
+
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!)),
+
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero

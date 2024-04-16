@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Models
+namespace Core.Models;
+
+public class PromotionDTO
 {
-    public class PromotionDTO
-    {
-        public int Id { get; set; }
-        public string? Nombre { get; set; }
-        public string? Duracion { get; set; }
-        public int PorcentajeDescuento { get; set; }
-    }
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
+    public int Discount { get; set; }
+    public ICollection<EnterpriseDTO> Enterprises { get; set; } = new List<EnterpriseDTO>();
 }

@@ -9,18 +9,14 @@ public class Account
     public string Number { get; set; } = string.Empty;
     public AccountType Type { get; set; } = AccountType.Current;
     public decimal Balance { get; set; }
-    public AccountStatus Status { get; set; } = AccountStatus.Active;
+    public AccountStatus Status { get; set; } = AccountStatus.Active; //ojo
 
+    public IsDeletedStatus IsDeleted { get; set; } = IsDeletedStatus.False;
     public int CurrencyId { get; set; }
     public Currency Currency { get; set; } = null!;
-    
     public int CustomerId { get; set; }
     public Customer Customer { get; set; } = null!;
-
-    public bool IsDelete { get; set; } = false;
-
     public SavingAccount? SavingAccount { get; set; }
     public CurrentAccount? CurrentAccount { get; set; }
     public virtual ICollection<Movement> Movements { get; set; } = new List<Movement>();
-    public IsDeletedStatus IsDeleted { get; set; } = IsDeletedStatus.False;
 }
