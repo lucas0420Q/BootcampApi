@@ -33,10 +33,10 @@ public class PromotionService : IPromotionService
         return await _promotionRepository.GetById(id);
     }
 
-    public Task<List<PromotionDTO>> GetFiltered(FilterPromotionModel filter)
-    {
-        throw new NotImplementedException();
-    }
+    //public async Task<List<PromotionDTO>> GetFiltered(FilterPromotionModel filter)
+    //{
+    //    return await _promotionRepository.GetFiltered(filter);
+    //}
 
     public async Task<PromotionDTO> Update(UpdatePromotionModel model)
     {

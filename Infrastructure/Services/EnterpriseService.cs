@@ -24,14 +24,14 @@ public class EnterpriseService : IEnterpriseService
         return await _businessRepository.Delete(id);
     }
 
+    public async Task<List<EnterpriseDTO>> GetAll()
+    {
+        return await _businessRepository.GetAll();
+    }
+
     public async Task<EnterpriseDTO> GetById(int id)
     {
         return await _businessRepository.GetById(id);
-    }
-
-    public Task<List<EnterpriseDTO>> GetFiltered(FilterEnterpriseModel filter)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<EnterpriseDTO> Update(UpdateEnterpriseModel model)

@@ -1,10 +1,10 @@
 ﻿using Core.Entities;
-using Core.Exceptions;
 using Core.Interfaces.Repositories;
 using Core.Models;
 using Core.Request;
 using Infrastructure.Contexts;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
@@ -39,6 +39,24 @@ public class EnterpriseRepository : IEnterpriseRepository
         return result > 0;
     }
 
+    public async Task<List<EnterpriseDTO>> GetAll()
+    {
+        var enterprises = await _context.Enterprises
+        .Include(e => e.PromotionsEnterprises)
+            .ThenInclude(pe => pe.Promotion)
+        .Select(e => new EnterpriseDTO
+        {
+            Id = e.Id,
+            Name = e.Name,
+            Address = e.Address,
+            Phone = e.Phone,
+            Email = e.Email,
+            Promotions = e.PromotionsEnterprises.Select(pe => pe.Promotion.Adapt<PromotionDTO>()).ToList()
+        })
+        .ToListAsync();
+
+        return enterprises;
+    }
     public async Task<EnterpriseDTO> GetById(int id)
     {
         var business = await _context.Enterprises.FindAsync(id);
@@ -48,11 +66,6 @@ public class EnterpriseRepository : IEnterpriseRepository
         var businessDTO = business.Adapt<EnterpriseDTO>();
 
         return businessDTO;
-    }
-
-    public Task<List<EnterpriseDTO>> GetFiltered(FilterEnterpriseModel filter)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<EnterpriseDTO> Update(UpdateEnterpriseModel model)
@@ -67,7 +80,8 @@ public class EnterpriseRepository : IEnterpriseRepository
 
         await _context.SaveChangesAsync();
 
-        var businessDTO = business.Adapt<EnterpriseDTO>();
-        return businessDTO;
+        var EnterpriseDTO = business.Adapt<EnterpriseDTO>();
+
+        return EnterpriseDTO;
     }
 }

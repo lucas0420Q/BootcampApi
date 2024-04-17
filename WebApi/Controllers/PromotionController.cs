@@ -26,13 +26,14 @@ public class PromotionController : BaseApiController
     {
         return Ok(await _service.Update(request));
     }
-    [HttpGet("filtered")]
-    public async Task<IActionResult> GetFiltered([FromQuery] FilterPromotionModel filter)
-    {
-        var account = await _service.GetFiltered(filter);
-        return Ok(account);
-    }
-    [HttpDelete("{id}")]
+    //[HttpGet("filtered")]
+    //public async Task<IActionResult> GetFiltered([FromQuery] FilterPromotionModel filter)
+    //{
+    //    var account = await _service.GetFiltered(filter);
+    //    return Ok(account);
+//}
+
+[HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         return Ok(await _service.Delete(id));

@@ -1,7 +1,8 @@
 ﻿public class FilterPromotionModel
 {
+    public string? Id { get; set; } 
     public string Name { get; set; } = string.Empty;
-    public int? DurationTimeFrom { get; set; }
-    public int? DurationTimeTo { get; set; }
-    public double? PercentageOff { get; set; }
+    public DateTime Start { get; set; }
+    public DateTime End { get; set; }
+    public int Discount { get; set; }
 }

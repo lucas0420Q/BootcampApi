@@ -1,7 +1,4 @@
-﻿using Core.Constants;
-using Core.Entities;
-
-namespace Core.Models;
+﻿namespace Core.Models;
 
 public class SavingAccountDTO
 {

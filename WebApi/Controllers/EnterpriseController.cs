@@ -26,16 +26,15 @@ public class EnterpriseController : BaseApiController
     {
         return Ok(await _service.Update(request));
     }
-    [HttpGet("filtered")]
-    public async Task<IActionResult> GetFiltered([FromQuery] FilterEnterpriseModel filter)
-    {
-        var account = await _service.GetFiltered(filter);
-        return Ok(account);
-    }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         return Ok(await _service.Delete(id));
+    }
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll()
+    {
+        return Ok(await _service.GetAll());
     }
 }
 

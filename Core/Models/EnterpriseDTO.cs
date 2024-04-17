@@ -7,4 +7,5 @@ public class EnterpriseDTO
     public string? Address { get; set; }
     public string? Phone { get; set; }
     public string? Email { get; set; } = null;
+    public ICollection<PromotionDTO> Promotions { get; set; } = new List<PromotionDTO>();
 }

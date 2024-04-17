@@ -6,7 +6,6 @@ namespace Core.Interfaces.Services;
 
 public interface IPromotionService
 {
-    Task<List<PromotionDTO>> GetFiltered(FilterPromotionModel filter);
     Task<PromotionDTO> Add(CreatePromotionModel model);
     Task<PromotionDTO> GetById(int id);
     Task<PromotionDTO> Update(UpdatePromotionModel model);
