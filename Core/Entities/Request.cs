@@ -1,22 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Constants;
+using Core.Models;
 
 namespace Core.Entities;
 
 public class Request
 {
     public int Id { get; set; }
-    public string Name { get; set; } = null!;
+    public string Description { get; set; }
     public DateTime RequestDate { get; set; }
-
-    public DateTime? BankApprovalDate { get; set; }
-
-    public int ProductId { get; set; } // Clave foránea
-
-    public Product Product { get; set; } = null!; // Propiedad de navegación
-
-
-
-    //public ICollection<Currency> Currencies { get; set; } = new List<Currency>();
-
-
+    public DateTime ApprovalDate { get; set; }
+    public Product Product { get; set; } = null!;
+    public int ProductId { get; set; }
+    public int CurrencyId { get; set; }
+    public Currency? Currency { get; set; }
+    public int CustomerId { get; set; }
+    public Customer? Customer { get; set; }
+    public SolicitudRequestStatus Status { get; set; } = SolicitudRequestStatus.Pending;
+ 
 }

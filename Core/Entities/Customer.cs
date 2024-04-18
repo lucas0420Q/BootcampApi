@@ -28,4 +28,5 @@ public class Customer
     public CustomerStatus CustomerStatus { get; set; } = CustomerStatus.Active;
     public virtual Bank Bank { get; set; } = null!;
     public ICollection<Account> Accounts { get; set; } = new List<Account>();
+    public ICollection<Request> Requests { get; set; } = new List<Request>();
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BootcampContext))]
-    [Migration("20240417183709_RequestMigration")]
-    partial class RequestMigration
+    [Migration("20240418152722_ProductRequestMigration")]
+    partial class ProductRequestMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -343,7 +343,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Movement", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.Product", b =>
+            modelBuilder.Entity("Core.Entities.ProductRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -351,13 +351,33 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("ApplicationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("ProductType")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Promotion", b =>
@@ -398,34 +418,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("EnterpriseId");
 
                     b.ToTable("PromotionEnterprises");
-                });
-
-            modelBuilder.Entity("Core.Entities.Request", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("BankApprovalDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("RequestDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("Core.Entities.SavingAccount", b =>
@@ -527,6 +519,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("Account");
                 });
 
+            modelBuilder.Entity("Core.Entities.ProductRequest", b =>
+                {
+                    b.HasOne("Core.Entities.Currency", "Currency")
+                        .WithMany("Requests")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Customer", "Customer")
+                        .WithMany("Requests")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Core.Entities.PromotionEnterprise", b =>
                 {
                     b.HasOne("Core.Entities.Enterprise", "Enterprise")
@@ -544,17 +555,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Enterprise");
 
                     b.Navigation("Promotion");
-                });
-
-            modelBuilder.Entity("Core.Entities.Request", b =>
-                {
-                    b.HasOne("Core.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Core.Entities.SavingAccount", b =>
@@ -587,6 +587,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Accounts");
 
                     b.Navigation("CreditCards");
+
+                    b.Navigation("Requests");
                 });
 
             modelBuilder.Entity("Core.Entities.Customer", b =>
@@ -594,6 +596,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Accounts");
 
                     b.Navigation("CreditCards");
+
+                    b.Navigation("Requests");
                 });
 
             modelBuilder.Entity("Core.Entities.Enterprise", b =>
