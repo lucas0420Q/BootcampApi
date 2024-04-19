@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BootcampContext))]
-    partial class BootcampContextModelSnapshot : ModelSnapshot
+    [Migration("20240419133941_RequestProduct3Migration")]
+    partial class RequestProduct3Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -312,36 +315,32 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Amount")
-                        .HasPrecision(20, 5)
-                        .HasColumnType("numeric(20,5)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("numeric");
 
-                    b.Property<int>("DestinationAccountId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MovementType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OriginalAccountId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)");
 
                     b.Property<int>("TransferStatus")
+                        .HasMaxLength(150)
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("TransferredDateTime")
+                    b.Property<DateTime>("TransferredDateTime")
+                        .HasMaxLength(300)
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id")
-                        .HasName("Movements_pkey");
+                        .HasName("Movemen_pkey");
 
-                    b.HasIndex("DestinationAccountId");
+                    b.HasIndex("AccountId");
 
-                    b.ToTable("Movements");
+                    b.ToTable("Movement", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Promotion", b =>
@@ -513,7 +512,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Core.Entities.Account", "Account")
                         .WithMany("Movements")
-                        .HasForeignKey("DestinationAccountId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

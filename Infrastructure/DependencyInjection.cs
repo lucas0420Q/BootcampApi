@@ -50,6 +50,7 @@ public static class DependencyInjection
         services.AddScoped<IPromotionRepository, PromotionRepository>();
         services.AddScoped<IEnterpriseRepository, EnterpriseRepository>();
         services.AddScoped<IRequestRepository, RequestRepository>();
+        services.AddScoped<IMovementRepository, MovementRepository>();
 
         return services;
     }
@@ -65,7 +66,8 @@ public static class DependencyInjection
         services.AddScoped <IPromotionService, PromotionService>();
         services.AddScoped<IEnterpriseService, EnterpriseService>();
         services.AddScoped<IRequestService, RequestService>();
-      
+        services.AddScoped<IMovementService, MovementeService>();
+
 
         return services;
     }

@@ -18,12 +18,12 @@ public class RequestController : BaseApiController
     {
         return Ok(await _service.Add(request));
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] int id)
-    {
-        var request = await _service.GetById(id);
-        return Ok(request);
-    }
+    //[HttpGet("{id}")]
+    //public async Task<IActionResult> GetById([FromRoute] int id)
+    //{
+    //    var request = await _service.GetById(id);
+    //    return Ok(request);
+    //}
 }
 
 

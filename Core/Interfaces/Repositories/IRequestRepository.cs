@@ -6,5 +6,5 @@ namespace Core.Interfaces.Repositories;
 public interface IRequestRepository
 {
     Task<RequestDTO> Add(CreateRequestModel model);
-    Task<RequestDTO> GetById(int id);
+    //Task<RequestDTO> GetById(int id);
 }
