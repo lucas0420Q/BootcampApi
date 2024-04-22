@@ -23,32 +23,6 @@ public class AccountRepository : IAccountRepository
 
     public async Task<AccountDTO> Add(CreateAccountRequest model)
     {
-        //var account = model.Adapt<Account>();
-        //var customer = await _context.Customers.FindAsync(model.CustomerId);
-        //var customer2 = await _context.Customers
-        //       .Include(c => c.Bank)
-        //       //.Include(c=> c.Accounts)
-        //       //.ThenInclude(a=> a.SavingAccount)
-        //       //.Include(c => c.Accounts)
-        //       //.ThenInclude(a => a.CurrentAccount)
-        //       .FirstOrDefaultAsync(c => c.Id == model.CustomerId);
-
-        //if (customer != null)
-        //{
-        //   account.Customer = customer;
-        //}
-        //var currency = await _context.Currencies.FindAsync(model.CurrencyId);
-        //if (currency != null)
-        //{
-        //  account.Currency = currency;
-        //}
-        //account.Status = AccountStatus.Active;
-        //account.IsDeleted = IsDeletedStatus.False;
-
-        //await _context.Accounts.AddAsync(account);
-        //await _context.SaveChangesAsync();
-        //var accountDTO = account.Adapt<AccountDTO>();
-        //return accountDTO;
 
         var account = model.Adapt<Account>();
 
@@ -112,10 +86,8 @@ public class AccountRepository : IAccountRepository
         var account = await _context.Accounts.FindAsync(id);
 
         if (account is null) throw new NotFoundException("Account with ID " + id + " was not found");
-
         account.IsDeleted = IsDeletedStatus.True;
         //account.Status = AccountStatus.Inactive;
-
         _context.Accounts.Update(account);
         await _context.SaveChangesAsync();
         var result = await _context.SaveChangesAsync();
@@ -131,28 +103,7 @@ public class AccountRepository : IAccountRepository
                    .ThenInclude(a => a.Bank)
                    .Include(a => a.SavingAccount)
                    .Include(a => a.CurrentAccount)
-                   //.Where(a => a.IsDeleted != IsDeletedStatus.True)
                    .AsQueryable();
-
-        //if (!string.IsNullOrWhiteSpace(filter.Number))
-        //{
-        //    query = query.Where(a => a.Number == filter.Number);
-        //}
-
-        //if (!string.IsNullOrWhiteSpace(filter.Number))
-        //{
-        //    query = query.Where(a => a.Number == filter.Number);
-        //}
-
-        //if (filter.Type is not null)
-        //{
-        //    query = query.Where(a => a.Type == filter.Type);
-        //}
-
-        //if (!string.IsNullOrWhiteSpace(filter.Currency))
-        //{
-        //    query = query.Where(a => a.Currency.Name == filter.Currency);
-        //}
 
         if (filter.CurrencyId is not null)
         {

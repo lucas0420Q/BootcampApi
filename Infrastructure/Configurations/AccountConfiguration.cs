@@ -8,11 +8,18 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 {
     public void Configure(EntityTypeBuilder<Account> entity)
     {
-        entity.HasKey(e => e.Id).HasName("Account_pkey");
-        entity.Property(e => e.Number).HasMaxLength(100);
-        entity.Property(e => e.Balance).HasPrecision(20, 5);
+        entity
+          .HasKey(e => e.Id)
+          .HasName("Account_pkey");
 
+        entity
+            .Property(e => e.Number)
+            .HasMaxLength(100)
+            .IsRequired();
 
+        entity
+            .Property(e => e.Balance)
+            .HasPrecision(20, 5);
         entity
             .HasOne(account => account.Currency)
             .WithMany(currency => currency.Accounts)
@@ -24,25 +31,28 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasForeignKey(account => account.CustomerId);
 
         entity
-           .HasOne(account => account.SavingAccount)
+            .HasMany(account => account.Movements)
+            .WithOne(movement => movement.Account)
+            .HasForeignKey(movement => movement.OriginalAccountId);
+        entity
+            .HasMany(account => account.Movements)
+            .WithOne(movement => movement.Account)
+            .HasForeignKey(movement => movement.DestinationAccountId);
+        entity
+            .HasOne(account => account.SavingAccount)
             .WithOne(savingAccount => savingAccount.Account)
             .HasForeignKey<SavingAccount>(savingAccount => savingAccount.AccountId);
 
         entity
-              .HasOne(account => account.CurrentAccount)
+            .HasOne(account => account.CurrentAccount)
             .WithOne(savingAccount => savingAccount.Account)
             .HasForeignKey<CurrentAccount>(savingAccount => savingAccount.AccountId);
 
         entity
-           .HasOne(account => account.CurrentAccount)
+            .HasOne(account => account.CurrentAccount)
             .WithOne(savingAccount => savingAccount.Account)
-           .HasForeignKey<CurrentAccount>(savingAccount => savingAccount.AccountId);
+            .HasForeignKey<CurrentAccount>(savingAccount => savingAccount.AccountId);
 
-        entity
-           .HasMany(account => account.Movements)
-           .WithOne(movement => movement.Account)
-
-            .HasForeignKey(movement => movement.OriginalAccountId);
         entity
             .HasMany(account => account.Movements)
             .WithOne(movement => movement.Account)

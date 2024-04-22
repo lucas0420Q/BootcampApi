@@ -21,16 +21,16 @@ public class UpdateAccountModelValidation : AbstractValidator<UpdateAccountModel
         //RuleFor(x => x.Type)
         //    .Must(x => Enum.IsDefined(typeof(AccountType), x))
         //    .WithMessage("Invalid Account Type");
-        RuleFor(x => x.Balance)
-        .GreaterThanOrEqualTo("")
-        .WithMessage("Balance must be greater than or equal to zero.");
+        //RuleFor(x => x.Balance)
+        //.GreaterThanOrEqualTo("")
+        //.WithMessage("Balance must be greater than or equal to zero.");
 
-        RuleFor(x => x.CurrencyId)
-            .Must(x => x > 0)
-            .WithMessage("Invalid Currency");
+        //RuleFor(x => x.CurrencyId)
+        //    .Must(x => x > 0)
+        //    .WithMessage("Invalid Currency");
 
-        RuleFor(x => x.CustomerId)
-            .Must(x => x > 0)
-            .WithMessage("Invalid Customer");
+        //RuleFor(x => x.CustomerId)
+        //    .Must(x => x > 0)
+        //    .WithMessage("Invalid Customer");
     }
 }

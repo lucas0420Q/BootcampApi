@@ -42,11 +42,11 @@ public static class DependencyInjection
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
+        services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IBankRepository, BankRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ICurrencyRepository, CurrencyRepository>();
         services.AddScoped<ICreditCardRepository, CreditCardRepository>();
-        services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<IPromotionRepository, PromotionRepository>();
         services.AddScoped<IEnterpriseRepository, EnterpriseRepository>();
         services.AddScoped<IRequestRepository, RequestRepository>();
@@ -57,12 +57,12 @@ public static class DependencyInjection
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IBankService, BankService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<ICurrencyService, CurrencyService>();
         services.AddScoped<ICreditCardService, CreditCardService>();
         services.AddScoped<IJwtProvider, JwtProvider>();
-        services.AddScoped<IAccountService, AccountService>();
         services.AddScoped <IPromotionService, PromotionService>();
         services.AddScoped<IEnterpriseService, EnterpriseService>();
         services.AddScoped<IRequestService, RequestService>();

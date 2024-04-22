@@ -13,6 +13,5 @@ public class Movement
         public TransferStatus TransferStatus { get; set; } = TransferStatus.Pending;
         public int OriginalAccountId { get; set; }
         public int DestinationAccountId { get; set; }
-        public Account Account { get; set; } = null!;
-
+        public virtual Account Account { get; set; } = null!;
 }

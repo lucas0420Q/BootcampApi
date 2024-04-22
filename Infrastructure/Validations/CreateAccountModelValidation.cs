@@ -23,11 +23,11 @@ public class CreateAccountModelValidation : AbstractValidator<CreateAccountReque
             .WithMessage("Invalid Account Type");
         //RuleFor(x => x.Balance)
         //    .GreaterThanOrEqualTo(0).WithMessage("Balance must be greater than or equal to zero.");
-        RuleFor(x => x.CurrencyId)
-            .NotEmpty().WithMessage("Currency cannot be empty")
-            .Must(x => x > 0).WithMessage("Invalid Currency");
-        RuleFor(x => x.CustomerId)
-            .NotEmpty().WithMessage("Customer cannot be empty")
-            .Must(x => x > 0).WithMessage("Invalid Customer");
+        //RuleFor(x => x.CurrencyId)
+        //    .NotEmpty().WithMessage("Currency cannot be empty")
+        //    .Must(x => x > 0).WithMessage("Invalid Currency");
+        //RuleFor(x => x.CustomerId)
+        //    .NotEmpty().WithMessage("Customer cannot be empty")
+        //    .Must(x => x > 0).WithMessage("Invalid Customer");
     }
 }

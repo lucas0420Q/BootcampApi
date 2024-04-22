@@ -16,43 +16,38 @@ public class RequestRepository : IRequestRepository
         _context = context;
     }
 
-    public async Task<RequestDTO> Add(CreateRequestModel request)
+    public async Task<RequestDTO> Add(CreateRequestModel model)
     {
-
-        var product = request.Adapt<Request>();
-
-        _context.Requests.Add(product);
-
+        var request = model.Adapt<Request>();
+        _context.Requests.Add(request);
         await _context.SaveChangesAsync();
+        var createRequest = await _context.Requests
+        .Include(r => r.Currency)
+        .Include(r => r.Product)
+        .Include(r => r.Customer)
+        .ThenInclude(r => r.Bank)
+        .SingleOrDefaultAsync(r => r.Id == request.Id);
+        return createRequest.Adapt<RequestDTO>(); ;
+    }
 
-        var createdProduct = await _context.Requests
-        .Include(pr => pr.Currency)
-        .Include(pr => pr.Customer)
-            .ThenInclude(c => c.Bank)
-        .FirstOrDefaultAsync(pr => pr.Id == product.Id);
-
-
-        var RequestDTO = createdProduct.Adapt<RequestDTO>();
-
-        return RequestDTO;
+    public async Task<RequestDTO> GetById(int id)
+    {
+        var request = await _context.Requests
+           .Include(r => r.Currency)
+           .Include(r => r.Product)
+           .Include(r => r.Customer)
+           .ThenInclude(r => r.Bank)
+           .SingleOrDefaultAsync(r => r.Id == id);
+        if (request != null)
+        {
+            return request.Adapt<RequestDTO>();
+        }
+        else
+        {
+            return null;
+        }
     }
 }
-//public async Task<RequestDTO> GetById(int id)
-//    {
-//        var request = await _context.Requests
-//           .Include(r => r.Currency)
-//           .Include(r => r.Status)
-//           .Include(r => r.Customer)
-//           .ThenInclude(r => r.Bank)
-//           .SingleOrDefaultAsync(r => r.Id == id);
-//        if (request != null)
-//        {
-//            return request.Adapt<RequestDTO>();
-//        }
-//        else
-//        {
-//            return null;
-//        }
-//    }
+
 
 

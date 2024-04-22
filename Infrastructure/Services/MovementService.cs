@@ -16,11 +16,16 @@ public class MovementeService : IMovementService
 
     public async Task<MovementDTO> Add(CreateMovementModel model)
     {
-        throw new NotImplementedException();
+        return await _movementRepository.Add(model);
     }
 
     public async Task<MovementDTO> GetById(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<(bool isValid, string message)> ValidateTransactionRules(CreateMovementModel model)
+    {
+        return await _movementRepository.ValidateTransactionRules(model);
     }
 }

@@ -18,8 +18,9 @@ public class RequestService : IRequestService
     {
         return await _requestRepository.Add(model);
     }
-    //public async Task<RequestDTO> GetById(int id)
-    //{
-    //    return await _requestRepository.GetById(id);
-    //}
+
+    public async Task<RequestDTO> GetById(int id)
+    {
+        return await _requestRepository.GetById(id);
+    }
 }

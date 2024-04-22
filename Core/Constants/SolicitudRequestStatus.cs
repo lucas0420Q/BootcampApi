@@ -3,7 +3,7 @@ namespace Core.Constants;
 
 public enum SolicitudRequestStatus
 {
-    Credit,
-    CreditCard,
-    CurrentAccount
+    Pending,
+    Approved,
+    Rejected
 }
