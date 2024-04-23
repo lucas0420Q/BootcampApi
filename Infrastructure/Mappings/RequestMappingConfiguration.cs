@@ -10,13 +10,12 @@ public class RequestMappingConfiguration : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<CreateRequestModel, Request>()
-        //.Map(m => m.Amount, r => r.Amount)
-        //.Map(m => m.Term, r => r.Term)
-        // .Map(m => m.Brand, r => r.Brand)
-        .Map(m => m.Description, r => r.Description)
-        .Map(m => m.CurrencyId, r => r.CurrencyId)
-        .Map(m => m.ProductId, r => r.ProductId)
-        .Map(m => m.CustomerId, r => r.CustomerId);
+       //.Map(m => m.Amount, r => r.Amount)
+       //.Map(m => m.Term, r => r.Term)
+       // .Map(m => m.Brand, r => r.Brand)
+       .Map(m => m.Description, r => r.Description)
+       .Map(m => m.CurrencyId, r => r.CurrencyId)
+       .Map(m => m.CustomerId, r => r.CustomerId);
 
         config.NewConfig<Request, RequestDTO>()
         .Map(dest => dest.Id, src => src.Id)
@@ -25,7 +24,6 @@ public class RequestMappingConfiguration : IRegister
         //.Map(dest => dest.Brand, src => src.Brand)
         .Map(dest => dest.Description, src => src.Description)
         .Map(dest => dest.Currency, src => src.Currency.Name)
-        .Map(dest => dest.ProductType, src => src.Product.ProductType)
         .Map(dest => dest.Customer, src => src.Customer.Name);
     }
 }

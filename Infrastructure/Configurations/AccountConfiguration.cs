@@ -53,10 +53,5 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .WithOne(savingAccount => savingAccount.Account)
             .HasForeignKey<CurrentAccount>(savingAccount => savingAccount.AccountId);
 
-        entity
-            .HasMany(account => account.Movements)
-            .WithOne(movement => movement.Account)
-            .HasForeignKey(movement => movement.DestinationAccountId);
-
     }
 }

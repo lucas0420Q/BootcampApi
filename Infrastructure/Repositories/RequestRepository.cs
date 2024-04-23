@@ -23,7 +23,6 @@ public class RequestRepository : IRequestRepository
         await _context.SaveChangesAsync();
         var createRequest = await _context.Requests
         .Include(r => r.Currency)
-        .Include(r => r.Product)
         .Include(r => r.Customer)
         .ThenInclude(r => r.Bank)
         .SingleOrDefaultAsync(r => r.Id == request.Id);
@@ -34,7 +33,6 @@ public class RequestRepository : IRequestRepository
     {
         var request = await _context.Requests
            .Include(r => r.Currency)
-           .Include(r => r.Product)
            .Include(r => r.Customer)
            .ThenInclude(r => r.Bank)
            .SingleOrDefaultAsync(r => r.Id == id);

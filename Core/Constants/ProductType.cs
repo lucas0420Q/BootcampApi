@@ -1,8 +1,8 @@
-﻿//namespace Core.Constants;
+﻿namespace Core.Constants;
 
-//public enum ProductType
-//{
-//    Credit,
-//    CreditCard,
-//    CheckingAccount
-//}
+public enum ProductType
+{
+    Credit,
+    CreditCard,
+    CheckingAccount
+}
