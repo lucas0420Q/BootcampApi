@@ -11,4 +11,5 @@ public interface IAccountRepository
     Task<AccountDTO> Add(CreateAccountRequest model);
     Task<AccountDTO> Update(UpdateAccountModel model);
     Task<bool> Delete(int id);
+    Task<List<AccountDTO>> GetFiltered(FilterTransactionsAccount filter);
 }

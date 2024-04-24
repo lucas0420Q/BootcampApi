@@ -129,5 +129,43 @@ public class AccountRepository : IAccountRepository
         return accountDTO;
     }
 
+    public async Task<List<AccountDTO>> GetFiltered(FilterTransactionsAccount filter)
+    {
+        var query = _context.Accounts
+                        .Include(a => a.Movements)
+                        .Include(a => a.Deposits)
+                        .Include(a => a.Extractions)
+                        .Include(a => a.Payments)
+                        .AsQueryable();
+
+        var FilterTransactionsAccount = result.Adapt<List<FilterTransactionsAccount>>();
+
+        if (filter.Month.HasValue && !filter.Year.HasValue)
+        {
+            throw new InvalidOperationException("If month is specified, year must also be specified.");
+        }
+
+        if (filter.Month.HasValue && !filter.Year.HasValue)
+        {
+            throw new InvalidOperationException("Month and year must be specified together.");
+        }
+
+        if (filter.Month.HasValue && filter.Year.HasValue)
+        {
+            query = query.Where(o => o.DateOperation.Month == filter.Month.Value.Month && o.DateOperation.Year == filter.Year.Value.Year);
+        }
+
+        if (filter.DateYearFrom.HasValue && filter.DateYearTo.HasValue)
+        {
+            query = query.Where(o => o.DateOperation.Year >= filter.DateYearFrom.Value && o.DateOperation.Year <= filter.DateYearTo.Value);
+        }
+
+        if (!string.IsNullOrEmpty(filter.Descripción))
+        {
+            query = query.Where(o => o.Descripción.Contains(filter.Descripción));
+        }
+
+        var result = await query.ToListAsync();
+    }
 }
 

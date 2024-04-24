@@ -11,6 +11,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddWebApi(builder.Configuration);
 
+//builder.WebHost.ConfigureKestrel(FileServerOptions =>
+//{
+//    FileServerOptions.ListenAnyIP(8080); //Cambia el puerto segun sea necesario 
+//});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

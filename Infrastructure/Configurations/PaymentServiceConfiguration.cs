@@ -13,11 +13,22 @@ public class PaymentServiceConfiguration : IEntityTypeConfiguration<Payment>
             .HasKey(e => e.Id)
             .HasName("PaymentService_pkey");
 
-        entity.Property(e => e.DocumentNumber).HasMaxLength(255).IsRequired();
-        entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)").IsRequired();
-        entity.Property(e => e.Description).HasMaxLength(500).IsRequired();
-        entity.Property(e => e.AccountId).IsRequired();
-        entity.Property(e => e.PaymentServiceDateTime).IsRequired();
+        entity.Property(e => e.DocumentNumber)
+     .HasMaxLength(255)
+     .IsRequired();
+
+        entity.Property(e => e.Amount)
+            .HasColumnType("decimal(18, 2)")
+            .IsRequired();
+
+        entity.Property(e => e.ServiceId)
+            .IsRequired();
+
+        entity.Property(e => e.AccountId)
+            .IsRequired();
+
+        entity.Property(e => e.PaymentServiceDateTime)
+            .IsRequired();
 
         entity.HasOne(e => e.Account)
             .WithMany()

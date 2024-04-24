@@ -38,4 +38,10 @@ public class AccountController : BaseApiController
     {
         return Ok(await _service.Delete(id));
     }
+    [HttpGet("filtered")]
+    public async Task<IActionResult> GetFiltered([FromQuery] FilterTransactionsAccount filter)
+    {
+        var account = await _service.GetFiltered(filter);
+        return Ok(account);
+    }
 }
