@@ -26,21 +26,20 @@ public class MovementRepository : IMovementRepository
         {
             throw new InvalidOperationException(validationResult.message);
         }
+
         var movement = model.Adapt<Movement>();
         movement.TransferredDateTime = DateTime.UtcNow;
+
         // Add the movement to the database
         _context.Movements.Add(movement);
         await _context.SaveChangesAsync();
+
         // Update the balances of the accounts
         var originalAccount = await _context.Accounts.FindAsync(model.OriginalAccountId);
         originalAccount.Balance -= model.Amount;
         var destinationAccount = await FindDestinationAccount(model);
         destinationAccount.Balance += model.Amount;
 
-        if (originalAccount.Type == AccountType.Current)
-        {
-            originalAccount.CurrentAccount!.OperationalLimit -= model.Amount;
-        }
         await _context.SaveChangesAsync();
 
         // Map the movement to a DTO and return it
@@ -86,21 +85,6 @@ public class MovementRepository : IMovementRepository
         if (originalAccount.Balance < model.Amount)
         {
             return (false, "insufficient balance.");
-        }
-
-        // Validate the operational limit (if applicable)
-        if (originalAccount.Type == AccountType.Current)
-        {
-            var currentAccount = originalAccount.CurrentAccount;
-            var currentMonth = DateTime.UtcNow.Month;
-            var totalTransfersThisMonth = await _context.Movements
-                .Where(m => m.OriginalAccountId == originalAccount.Id && m.TransferredDateTime.HasValue && m.TransferredDateTime.Value.Month == currentMonth)
-                .SumAsync(m => m.Amount);
-            var remainingOperationalLimit = currentAccount.OperationalLimit - totalTransfersThisMonth;
-            if (remainingOperationalLimit < model.Amount)
-            {
-                return (false, "The transfer amount exceeds the operational limit.");
-            }
         }
 
         // Validate the amount

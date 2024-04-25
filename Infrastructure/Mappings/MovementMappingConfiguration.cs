@@ -47,6 +47,5 @@ public class MovementMappingConfiguration : IRegister
             .Map(dest => dest.OriginalAccountId, src => src.OriginalAccountId)
             .Map(dest => dest.DestinationAccountId, src => src.DestinationAccountId)
             .Map(dest => dest.Account, src => src.Account);
-
     }
 }

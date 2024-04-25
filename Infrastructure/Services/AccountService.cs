@@ -36,6 +36,11 @@ public class AccountService : IAccountService
         return await _accountRepository.GetFiltered(filter);
     }
 
+    public Task<List<AccountDTO>> GetFiltered(FilterTransactionsAccount filter)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<AccountDTO> Update(UpdateAccountModel model)
     {
         return await _accountRepository.Update(model);

@@ -15,5 +15,5 @@ public class AccountDTO
     public CustomerDTO Customer { get; set; } = null!;
 
     public SavingAccountDTO? SavingAccount { get; set; }
-    public CurrentAccount? CurrentAccount { get; set; }
+    public CurrentAccountDTO? CurrentAccount { get; set; }
 }

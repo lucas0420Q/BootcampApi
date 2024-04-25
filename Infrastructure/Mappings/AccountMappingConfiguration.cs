@@ -19,7 +19,8 @@ public class AccountMappingConfiguration : IRegister
             .Map(dest => dest.Type, src => src.AccountType);
 
         config.NewConfig<CreateSavingAccount, SavingAccount>()
-            .Map(dest => dest.SavingType, src => src.SavingType);
+            .Map(dest => dest.SavingType, src => src.SavingType)
+            .Map(dest => dest.HolderName, src => src.HolderName);
 
         config.NewConfig<CreateCurrentAccount, CurrentAccount>()
             .Map(dest => dest.OperationalLimit, src => src.OperationalLimit)
@@ -33,7 +34,7 @@ public class AccountMappingConfiguration : IRegister
             .Map(dest => dest.Number, src => src.Number)
             .Map(dest => dest.Type, src => src.Type)
             .Map(dest => dest.Balance, src => src.Balance)
-            .Map(dest => dest.Status, src => src.Status.ToString())
+            .Map(dest => dest.Status, src => src.Status.ToString()) //capaz este
             .Map(dest => dest.Currency, src => src.Currency)
             .Map(dest => dest.Customer, src => src.Customer)
             .Map(dest => dest.SavingAccount, src =>
@@ -47,12 +48,15 @@ public class AccountMappingConfiguration : IRegister
 
         config.NewConfig<SavingAccount, SavingAccountDTO>()
             .Map(dest => dest.Id, src => src.Id)
-            .Map(dest => dest.SavingType, src => src.SavingType.ToString());
+            .Map(dest => dest.SavingType, src => src.SavingType.ToString())
+            .Map(dest => dest.HolderName, src => src.HolderName);
+
 
         config.NewConfig<CurrentAccount, CurrentAccountDTO>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.OperationalLimit, src => src.OperationalLimit)
             .Map(dest => dest.MonthAverage, src => src.MonthAverage)
             .Map(dest => dest.Interest, src => src.Interest);
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Constants;
+using Core.Request;
 
 namespace Core.Entities;
 
@@ -9,7 +10,7 @@ public class Account
     public string Number { get; set; } = string.Empty;
     public AccountType Type { get; set; } = AccountType.Current;
     public decimal Balance { get; set; }
-    public AccountStatus Status { get; set; } = AccountStatus.Active; //ojo
+    public AccountStatus Status { get; set; } = AccountStatus.Active;
     public IsDeletedStatus IsDeleted { get; set; } = IsDeletedStatus.False;
     public int CurrencyId { get; set; }
     public Currency Currency { get; set; } = null!;

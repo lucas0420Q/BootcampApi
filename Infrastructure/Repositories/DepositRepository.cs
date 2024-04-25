@@ -32,18 +32,18 @@ public class DepositRepository : IDepositRepository
             throw new InvalidOperationException(validationResult.message);
         }
 
-        var Deposit = model.Adapt<Deposit>();
-        Deposit.DateOperation = DateTime.UtcNow;
+        var deposit = model.Adapt<Deposit>();
+        deposit.DateOperation = DateTime.UtcNow;
 
-        _context.Deposits.Add(Deposit);
+        _context.Deposits.Add(deposit);
 
         var originalAccount = await _context.Accounts.FindAsync(model.AccountId);
         originalAccount.Balance += model.amount;
 
-        if (originalAccount.Type == AccountType.Current)
-        {
-            originalAccount.CurrentAccount!.OperationalLimit += model.amount;
-        }
+        //if (originalAccount.Type == AccountType.Current)
+        //{
+        //    originalAccount.CurrentAccount!.OperationalLimit += model.amount;
+        //}
 
         await _context.SaveChangesAsync();
 
@@ -52,12 +52,30 @@ public class DepositRepository : IDepositRepository
             //.Include(a => a.BankId)
             .Include(a => a.Bank)
             //.Include(c => c.DateOperation)
-            .FirstOrDefaultAsync(a => a.Id == Deposit.Id);
+            .FirstOrDefaultAsync(a => a.Id == deposit.Id);
 
         return createDeposit.Adapt<DepositDTO>();
-
     }
+    private async Task<bool> IsDepositOperationalLimitSufficient(CurrentAccount currentAccount, decimal amount)
+    {
+        // Obtener el mes actual
+        var currentMonth = DateTime.UtcNow.Month;
 
+        // Calcular la suma de los depósitos del mes actual
+        var totalDepositsThisMonth = await _context.Deposits
+            .Where(d => d.Id == currentAccount.Id &&
+                        d.DateOperation.Month == currentMonth)
+            .SumAsync(d => d.amount);
+
+        // Verificar si el límite operacional de depósitos es suficiente
+        if (currentAccount.OperationalLimit.HasValue &&
+            currentAccount.OperationalLimit.Value < totalDepositsThisMonth + amount)
+        {
+            return false;
+        }
+
+        return true;
+    }
     public async Task<(bool isValid, string message)> ValidateTransactionRules(CreateDepositModel model)
     {
         // Verificar que se proporciona un ID de cuenta válido
@@ -82,26 +100,6 @@ public class DepositRepository : IDepositRepository
 
         // Si todas las validaciones pasan, devolvemos true para isValid
         return (true, "Transaction is valid.");
-
-        // Verificar si se sobrepasa el límite operacional
-        var originalAccount = await _context.Accounts
-            .Include(a => a.CurrentAccount)
-            .SingleOrDefaultAsync(a => a.Id == model.AccountId);
-
-        if (originalAccount == null)
-        {
-            return (false, "Invalid original account.");
-        }
-
-        // Verificar el límite operacional si la cuenta es de tipo "Current"
-        if (originalAccount.Type == AccountType.Current &&
-            originalAccount.CurrentAccount != null &&
-            model.amount > originalAccount.CurrentAccount.OperationalLimit)
-        {
-            return (false, "Amount exceeds the operational limit.");
-        }
-
-        // Si todas las validaciones pasan, devolvemos true para isValid
-        return (true, "Transaction is valid.");
     }
+
 }

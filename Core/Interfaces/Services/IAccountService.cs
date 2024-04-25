@@ -2,13 +2,15 @@
 using Core.Request;
 using Core.Requests;
 
-public interface IAccountService
+namespace Core.Interfaces.Services
 {
-    Task<List<AccountDTO>> GetFiltered(FilterAccountModel filter);
-    Task<AccountDTO> GetById(int id);
-    Task<AccountDTO> Add(CreateAccountRequest model);
-    Task<AccountDTO> Update(UpdateAccountModel model);
-    Task<bool> Delete(int id);
-    Task<List<AccountDTO>> GetFiltered(FilterTransactionsAccount filter);
+    public interface IAccountService
+    {
+        Task<List<AccountDTO>> GetFiltered(FilterAccountModel filter);
+        Task<AccountDTO> GetById(int id);
+        Task<AccountDTO> Add(CreateAccountRequest model);
+        Task<AccountDTO> Update(UpdateAccountModel model);
+        Task<bool> Delete(int id);
+        Task<List<AccountDTO>> GetFiltered(FilterTransactionsAccount filter);
+    }
 }
-

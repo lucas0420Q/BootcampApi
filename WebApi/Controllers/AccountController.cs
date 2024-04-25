@@ -13,9 +13,12 @@ public class AccountController : BaseApiController
     {
         _service = accountService;
     }
+
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
-    => Ok(await _service.GetById(id));
+    public async Task<IActionResult> GetById([FromRoute]int id)
+    {
+       return Ok(await _service.GetById(id));
+    }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateAccountRequest request)
@@ -37,11 +40,5 @@ public class AccountController : BaseApiController
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         return Ok(await _service.Delete(id));
-    }
-    [HttpGet("filtered")]
-    public async Task<IActionResult> GetFiltered([FromQuery] FilterTransactionsAccount filter)
-    {
-        var account = await _service.GetFiltered(filter);
-        return Ok(account);
     }
 }
