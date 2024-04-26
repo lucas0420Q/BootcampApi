@@ -10,7 +10,7 @@ public class ExtractionConfiguration : IEntityTypeConfiguration<Extraction>
     {
         entity
                 .HasKey(e => e.Id);
-        entity.Property(e => e.Id).IsRequired();
+        //entity.Property(e => e.Id).IsRequired();
         entity.Property(e => e.BankId).IsRequired();
         entity.Property(e => e.amount).HasColumnType("decimal(18, 2)").IsRequired();
         entity.Property(e => e.DateExtraction).IsRequired();
@@ -20,7 +20,13 @@ public class ExtractionConfiguration : IEntityTypeConfiguration<Extraction>
                .WithMany()
                .HasForeignKey(e => e.BankId);
 
+        entity.HasOne(e => e.Account)
+               .WithMany()
+               .HasForeignKey(e => e.AccountId);
 
-        
+
+
+
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿
 using Core.Constants;
 using Core.Entities;
-using Core.Exceptions;
 using Core.Interfaces.Repositories;
 using Core.Models;
 using Core.Request;
@@ -23,6 +22,14 @@ public class AccountRepository : IAccountRepository
 
     public async Task<AccountDTO> Add(CreateAccountRequest model)
     {
+
+        var customer = await _context.Customers.FindAsync(model.CustomerId);
+
+        if (customer == null) { throw new BusinessLogicException("Customer was not found"); }
+
+        var currency = await _context.Currencies.FindAsync(model.CurrencyId);
+
+        if (currency == null) { throw new BusinessLogicException("Currency was not found"); }
 
         var account = model.Adapt<Account>();
 
@@ -66,21 +73,85 @@ public class AccountRepository : IAccountRepository
     }
     public async Task<AccountDTO> Update(UpdateAccountModel model)
     {
-        var account = await _context.Accounts.FindAsync(model.Id);
+        var account = await _context.Accounts
+       .Include(a => a.SavingAccount)
+       .Include(a => a.CurrentAccount)
+       .FirstOrDefaultAsync(a => a.Id == model.Id);
 
-        if (account is null) throw new Exception("Account was not found");
-        model.Adapt(account);
-        _context.Accounts.Update(account);
+        if (account.IsDeleted == IsDeletedStatus.True)
+        {
+            throw new BusinessLogicException($"The account {account.Holder} is Delete");
+        }
+
+        var customer = await _context.Customers.FindAsync(model.CustomerId);
+
+        if (customer == null) { throw new BusinessLogicException("Customer was not found"); }
+
+        var currency = await _context.Currencies.FindAsync(model.CurrencyId);
+
+        if (customer == null) { throw new BusinessLogicException("Currency was not found"); }
+
+        if (account is null)
+        {
+            throw new InvalidOperationException("Account was not found");
+        }
+
+        if (model.Type != account.Type)
+        {
+            throw new BusinessLogicException($"The account type is not : {model.Type}");
+        }
+        switch (account.Type)
+        {
+            case AccountType.Saving:
+                if (account.SavingAccount == null)
+                {
+                    account.SavingAccount = new SavingAccount();
+                }
+                model.SavingAccount.Adapt(account.SavingAccount);
+                break;
+
+            case AccountType.Current:
+                if (account.CurrentAccount == null)
+                {
+                    account.CurrentAccount = new CurrentAccount();
+                }
+                model.CurrentAccount.Adapt(account.CurrentAccount);
+                break;
+
+            default:
+                throw new ArgumentException("Invalid account type");
+        }
+
+        // Actualizar los datos de la cuenta
+        model.Adapt<Account>();
+
+        // Actualizar los datos de la cuenta de ahorros si se proporcionaron
+        if (model.Type == AccountType.Saving)
+        {
+            account.SavingAccount ??= new SavingAccount(); // Crear un nuevo objeto si la cuenta de ahorros aún no existe
+            model.SavingAccount.Adapt(account.SavingAccount);
+        }
+
+        // Actualizar los datos de la cuenta corriente si se proporcionaron
+        if (model.Type == AccountType.Current)
+        {
+            account.CurrentAccount ??= new CurrentAccount(); // Crear un nuevo objeto si la cuenta corriente aún no existe
+            model.CurrentAccount.Adapt(account.CurrentAccount);
+        }
+
+        // Guardar los cambios en la base de datos
         await _context.SaveChangesAsync();
-        //var accountDTO = account.Adapt<AccountDTO>();
-        var updateAccount = await _context.Accounts
-        .Include(a => a.Currency)
-        .Include(a => a.Customer)
-        .ThenInclude(c => c.Bank)
-        .Include(a => a.SavingAccount)
-        .Include(a => a.CurrentAccount)
-        .FirstOrDefaultAsync(a => a.Id == account.Id);
-        return updateAccount.Adapt<AccountDTO>();
+
+        // Cargar la cuenta actualizada con todas las relaciones necesarias
+        account = await _context.Accounts
+            .Include(a => a.Currency)
+            .Include(a => a.Customer)
+            .ThenInclude(c => c.Bank)
+            .Include(a => a.SavingAccount)
+            .Include(a => a.CurrentAccount)
+            .FirstOrDefaultAsync(a => a.Id == account.Id);
+
+        return account.Adapt<AccountDTO>();
     }
     public async Task<bool> Delete(int id)
     {

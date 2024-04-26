@@ -16,7 +16,8 @@ namespace Infrastructure.Configurations
         {
             entity
                  .HasKey(e => e.Id);
-            entity.Property(e => e.Id).IsRequired();
+            //entity.Property(e => e.Id).IsRequired();
+            entity.Property(e => e.AccountId).IsRequired();
             entity.Property(e => e.BankId).IsRequired();
             entity.Property(e => e.amount).HasColumnType("decimal(18, 2)").IsRequired();
             entity.Property(e => e.DateOperation).IsRequired();
@@ -25,8 +26,12 @@ namespace Infrastructure.Configurations
             entity.HasOne(e => e.Bank)
                    .WithMany()
                    .HasForeignKey(e => e.BankId)
-                   .OnDelete(DeleteBehavior.Restrict); // Restricción de eliminación
-        }
+                   .OnDelete(DeleteBehavior.Restrict);// Restricción de eliminación
 
+            entity
+              .HasOne(Deposit => Deposit.Account)
+              .WithMany(account => account.Deposits)
+              .HasForeignKey(Deposit => Deposit.AccountId);
+        }
     }
 }

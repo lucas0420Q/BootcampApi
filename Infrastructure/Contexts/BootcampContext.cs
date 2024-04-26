@@ -36,7 +36,7 @@ public partial class BootcampContext : DbContext
     public virtual DbSet<Service> Services { get; set; }
     public virtual DbSet<Deposit> Deposits { get; set; }
     public virtual DbSet<Extraction> Extractions { get; set; }
-    //public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,7 +72,7 @@ public partial class BootcampContext : DbContext
 
         modelBuilder.ApplyConfiguration(new ExtractionConfiguration());
 
-        //modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
 
 
 

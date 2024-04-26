@@ -19,4 +19,6 @@ public class Account
     public SavingAccount? SavingAccount { get; set; }
     public CurrentAccount? CurrentAccount { get; set; }
     public virtual ICollection<Movement> Movements { get; set; } = new List<Movement>();
+    public virtual ICollection<Deposit> Deposits { get; set; } = new List<Deposit>();
+    public virtual ICollection<Extraction> Extractions { get; set; } = new List<Extraction>();
 }

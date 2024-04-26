@@ -39,10 +39,10 @@ namespace Infrastructure.Repositories
             var originalAccount = await _context.Accounts.FindAsync(model.AccountId);
             originalAccount.Balance -= model.amount;
 
-            if (originalAccount.Type == AccountType.Current)
-            {
-                originalAccount.CurrentAccount!.OperationalLimit += model.amount;
-            }
+            //if (originalAccount.Type == AccountType.Current)
+            //{
+            //    originalAccount.CurrentAccount!.OperationalLimit += model.amount;
+            //}
 
             await _context.SaveChangesAsync();
 

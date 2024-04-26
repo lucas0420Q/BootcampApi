@@ -18,10 +18,10 @@ public class RequestConfiguration : IEntityTypeConfiguration<Request>
             .Property(r => r.Description)
             .IsRequired();
 
-        //entity
-        //    /*.*//*HasOne(r => r.Product)*/
-        //    .WithMany(p => p.Requests)
-        //    .HasForeignKey(r => r.ProductId);
+        entity
+            .HasOne(r => r.Product)
+            .WithMany(p => p.Requests)
+            .HasForeignKey(r => r.ProductId);
 
         entity
             .HasOne(r => r.Currency)

@@ -9,12 +9,13 @@ public class Request
     public string Description { get; set; }
     public DateTime RequestDate { get; set; }
     public DateTime? ApprovalDate { get; set; } = null;
-    public ProductType ProductType { get; set; }
-    //public int ProductId { get; set; }
+    public int ProductId { get; set; }
+    public Product Product { get; set; }
     public SolicitudRequestStatus Status { get; set; } = SolicitudRequestStatus.Pending;
     public int CurrencyId { get; set; }
     public Currency? Currency { get; set; }
     public int CustomerId { get; set; }
     public Customer? Customer { get; set; }
+
 
 }

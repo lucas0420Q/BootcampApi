@@ -28,6 +28,11 @@ public class MovementConfiguration : IEntityTypeConfiguration<Movement>
             .HasOne(d => d.Account)
             .WithMany(p => p.Movements)
             .HasForeignKey(d => d.DestinationAccountId);
+
+        //entity
+        //    .HasMany(Movement => Movement.Deposits)
+        //    .WithOne(Deposit => Deposit.)
+        //    .HasForeignKey(bank => bank.BankId);
     }
 }
 

@@ -33,10 +33,10 @@ public class PaymentRepository : IPaymentRepository
         var originalAccount = await _context.Accounts.FindAsync(model.AccountId);
         originalAccount.Balance -= model.Amount;
 
-        if (originalAccount.Type == AccountType.Current)
-        {
-            originalAccount.CurrentAccount!.OperationalLimit -= model.Amount;
-        }
+        //if (originalAccount.Type == AccountType.Current)
+        //{
+        //    originalAccount.CurrentAccount!.OperationalLimit -= model.Amount;
+        //}
 
         await _context.SaveChangesAsync();
 

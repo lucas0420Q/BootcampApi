@@ -22,6 +22,16 @@ namespace Infrastructure.Configurations
             .WithOne(customer => customer.Bank)
             .HasForeignKey(Customer => Customer.BankId);
 
+            entity
+            .HasMany(bank => bank.Deposits)
+            .WithOne(Deposit => Deposit.Bank)
+            .HasForeignKey(bank => bank.BankId);
+
+            entity
+            .HasMany(bank => bank.Extractions)
+            .WithOne(extraction => extraction.Bank)
+            .HasForeignKey(extraction => extraction.BankId);
+
         }
     }
 }
