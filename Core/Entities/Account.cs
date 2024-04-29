@@ -8,7 +8,7 @@ public class Account
     public int Id { get; set; }
     public string Holder { get; set; } = string.Empty;
     public string Number { get; set; } = string.Empty;
-    public AccountType Type { get; set; } = AccountType.Current;
+    public AccountType Type { get; set; }
     public decimal Balance { get; set; }
     public AccountStatus Status { get; set; } = AccountStatus.Active;
     public IsDeletedStatus IsDeleted { get; set; } = IsDeletedStatus.False;

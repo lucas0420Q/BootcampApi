@@ -70,7 +70,8 @@ public class DepositRepository : IDepositRepository
 
         var totalAmountOperations = totalAmountOperationsTransfers + totalAmountOperationsDeposits + totalAmountOperationsExtractions;
 
-        if ((model.amount + totalAmountOperations) > account.CurrentAccount!.OperationalLimit)
+        if (account.CurrentAccount !=null && 
+            ((model.amount + totalAmountOperations) > account.CurrentAccount!.OperationalLimit))
         {
             throw new Exception("Account exceeded the operational limit.");
         }
@@ -86,7 +87,7 @@ public class DepositRepository : IDepositRepository
 
         return createDeposit.Adapt<DepositDTO>();
     }
-    private async Task<bool> IsDepositOperationalLimitSufficient(CurrentAccount currentAccount, decimal amount)
+    public async Task<bool> IsDepositOperationalLimitSufficient(CurrentAccount currentAccount, decimal amount)
     {
         // Obtener el mes actual
         var currentMonth = DateTime.UtcNow.Month;
