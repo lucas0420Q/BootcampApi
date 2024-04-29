@@ -36,8 +36,8 @@ namespace Infrastructure.Validations
                 .NotNull().WithMessage("Credit Limit cannot be null")
                 .GreaterThan(0).WithMessage("Credit Limit must be greater than zero.");
             RuleFor(x => x.AvaibleCredit)
-                .NotNull().WithMessage("Available Credit cannot be null")
-                .GreaterThan(500000).WithMessage("Interest must be greater than five hundred thousand.");
+                .NotNull().WithMessage("Available Credit cannot be null");
+   
 
             RuleFor(x => x.InterestRate)
                 .NotNull().WithMessage("Interest Rate cannot be null")

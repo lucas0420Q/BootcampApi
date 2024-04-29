@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BootcampContext))]
-    [Migration("20240426190112_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20240429123924_Solucion1Migration")]
+    partial class Solucion1Migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -292,9 +292,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("BankId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("BankId1")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("DateOperation")
                         .HasColumnType("timestamp with time zone");
 
@@ -306,8 +303,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("AccountId");
 
                     b.HasIndex("BankId");
-
-                    b.HasIndex("BankId1");
 
                     b.ToTable("Deposits");
                 });
@@ -352,13 +347,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("AccountId1")
-                        .HasColumnType("integer");
-
                     b.Property<int>("BankId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("BankId1")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateExtraction")
@@ -371,11 +360,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("AccountId1");
-
                     b.HasIndex("BankId");
-
-                    b.HasIndex("BankId1");
 
                     b.ToTable("Extractions");
                 });
@@ -667,14 +652,10 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Bank", "Bank")
-                        .WithMany()
-                        .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Bank", null)
                         .WithMany("Deposits")
-                        .HasForeignKey("BankId1");
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
 
@@ -684,24 +665,16 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.Extraction", b =>
                 {
                     b.HasOne("Core.Entities.Account", "Account")
-                        .WithMany()
+                        .WithMany("Extractions")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Account", null)
-                        .WithMany("Extractions")
-                        .HasForeignKey("AccountId1");
-
                     b.HasOne("Core.Entities.Bank", "Bank")
-                        .WithMany()
+                        .WithMany("Extractions")
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Core.Entities.Bank", null)
-                        .WithMany("Extractions")
-                        .HasForeignKey("BankId1");
 
                     b.Navigation("Account");
 

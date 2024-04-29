@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class Solucion1Migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -289,8 +289,7 @@ namespace Infrastructure.Migrations
                     AccountId = table.Column<int>(type: "integer", nullable: false),
                     BankId = table.Column<int>(type: "integer", nullable: false),
                     amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    DateOperation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    BankId1 = table.Column<int>(type: "integer", nullable: true)
+                    DateOperation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -306,12 +305,7 @@ namespace Infrastructure.Migrations
                         column: x => x.BankId,
                         principalTable: "Bank",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Deposits_Bank_BankId1",
-                        column: x => x.BankId1,
-                        principalTable: "Bank",
-                        principalColumn: "Id");
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -323,9 +317,7 @@ namespace Infrastructure.Migrations
                     AccountId = table.Column<int>(type: "integer", nullable: false),
                     BankId = table.Column<int>(type: "integer", nullable: false),
                     amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    DateExtraction = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    AccountId1 = table.Column<int>(type: "integer", nullable: true),
-                    BankId1 = table.Column<int>(type: "integer", nullable: true)
+                    DateExtraction = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -337,21 +329,11 @@ namespace Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Extractions_Accounts_AccountId1",
-                        column: x => x.AccountId1,
-                        principalTable: "Accounts",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Extractions_Bank_BankId",
                         column: x => x.BankId,
                         principalTable: "Bank",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Extractions_Bank_BankId1",
-                        column: x => x.BankId1,
-                        principalTable: "Bank",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -465,29 +447,14 @@ namespace Infrastructure.Migrations
                 column: "BankId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deposits_BankId1",
-                table: "Deposits",
-                column: "BankId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Extractions_AccountId",
                 table: "Extractions",
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Extractions_AccountId1",
-                table: "Extractions",
-                column: "AccountId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Extractions_BankId",
                 table: "Extractions",
                 column: "BankId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Extractions_BankId1",
-                table: "Extractions",
-                column: "BankId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movements_DestinationAccountId",

@@ -11,18 +11,20 @@ public class ExtractionConfiguration : IEntityTypeConfiguration<Extraction>
         entity
                 .HasKey(e => e.Id);
         //entity.Property(e => e.Id).IsRequired();
-        entity.Property(e => e.BankId).IsRequired();
+        //entity.Property(e => e.BankId).IsRequired();
         entity.Property(e => e.amount).HasColumnType("decimal(18, 2)").IsRequired();
         entity.Property(e => e.DateExtraction).IsRequired();
 
         // Definir la relación con la entidad BankDTO
-        entity.HasOne(e => e.Bank)
-               .WithMany()
-               .HasForeignKey(e => e.BankId);
+        entity
+              .HasOne(Extraction => Extraction.Bank)
+              .WithMany(Bank => Bank.Extractions)
+              .HasForeignKey(Extraction => Extraction.BankId);
 
-        entity.HasOne(e => e.Account)
-               .WithMany()
-               .HasForeignKey(e => e.AccountId);
+        entity
+                .HasOne(Extraction => Extraction.Account)
+                .WithMany(Account => Account.Extractions)
+                .HasForeignKey(Extraction => Extraction.AccountId);
 
 
 

@@ -47,54 +47,54 @@ public class MovementRepository : IMovementRepository
                                  .ThenInclude(c => c.Bank)
                                  .FirstOrDefaultAsync(a => a.Id == model.DestinationAccountId);
 
-        //if (originalAccount.CurrentAccount != null && model.Amount > originalAccount.CurrentAccount.OperationalLimit)
-        //{
-        //    throw new Exception("The operation exceeds the operational limit.");
-        //}
+        if (originalAccount.CurrentAccount != null && model.Amount > originalAccount.CurrentAccount.OperationalLimit)
+        {
+            throw new Exception("The operation exceeds the operational limit.");
+        }
 
-        //var totalAmountOperationsOATransfers = _context.Movements
-        //                                                    .Where(t => t.OriginalAccountId == originalAccount.Id &&
-        //                                                    t.TransferredDateTime.Value.Month == DateTime.Now.Month)
-        //                                                    .Sum(t => t.Amount);
+        var totalAmountOperationsOATransfers = _context.Movements
+                                                            .Where(t => t.OriginalAccountId == originalAccount.Id &&
+                                                            t.TransferredDateTime.Value.Month == DateTime.Now.Month)
+                                                            .Sum(t => t.Amount);
 
-        //var totalAmountOperationsOADeposits = _context.Deposits
-        //                                                     .Where(d => d.account == originalAccount.Id &&
-        //                                                     d.DateOperation.Month == DateTime.Now.Month)
-        //                                                     .Sum(d => d.amount);
+        var totalAmountOperationsOADeposits = _context.Deposits
+                                                             .Where(d => d.AccountId == originalAccount.Id &&
+                                                             d.DateOperation.Month == DateTime.Now.Month)
+                                                             .Sum(d => d.amount);
 
-        //var totalAmountOperationsOAExtractions = _context.Extractions
-        //                                                      .Where(e => e.Id == originalAccount.Id &&
-        //                                                      e.DateExtraction.Month == DateTime.Now.Month)
-        //                                                      .Sum(e => e.amount);
+        var totalAmountOperationsOAExtractions = _context.Extractions
+                                                              .Where(e => e.AccountId == originalAccount.Id &&
+                                                              e.DateExtraction.Month == DateTime.Now.Month)
+                                                              .Sum(e => e.amount);
 
-        //var totalAmountOperationsOA = totalAmountOperationsOATransfers + totalAmountOperationsOADeposits + totalAmountOperationsOAExtractions;
+        var totalAmountOperationsOA = totalAmountOperationsOATransfers + totalAmountOperationsOADeposits + totalAmountOperationsOAExtractions;
 
-        //if ((model.Amount + totalAmountOperationsOA) > originalAccount.CurrentAccount!.OperationalLimit)
-        //{
-        //    throw new Exception("OriginAccount exceeded the operational limit.");
-        //}
+        if ((model.Amount + totalAmountOperationsOA) > originalAccount.CurrentAccount!.OperationalLimit)
+        {
+            throw new Exception("OriginAccount exceeded the operational limit.");
+        }
 
-        //var totalAmountOperationsDATransfers = _context.Movements
-        //                                          .Where(t => t.Id == destinationAccount.Id &&
-        //                                          t.TransferredDateTime.Value.Month == DateTime.Now.Month)
-        //                                          .Sum(t => t.Amount);
+        var totalAmountOperationsDATransfers = _context.Movements
+                                                  .Where(t => t.DestinationAccountId == destinationAccount.Id &&
+                                                  t.TransferredDateTime.Value.Month == DateTime.Now.Month)
+                                                  .Sum(t => t.Amount);
 
-        //var totalAmountOperationsDADeposits = _context.Deposits
-        //                                          .Where(d => d.Id == destinationAccount.Id &&
-        //                                          d.DateOperation.Month == DateTime.Now.Month)
-        //                                          .Sum(d => d.amount);
+        var totalAmountOperationsDADeposits = _context.Deposits
+                                                  .Where(d => d.AccountId == destinationAccount.Id &&
+                                                  d.DateOperation.Month == DateTime.Now.Month)
+                                                  .Sum(d => d.amount);
 
-        //var totalAmountOperationsDAExtractions = _context.Extractions
-        //                                          .Where(e => e.Id == destinationAccount.Id &&
-        //                                          e.DateExtraction.Month == DateTime.Now.Month)
-        //                                          .Sum(e => e.amount);
+        var totalAmountOperationsDAExtractions = _context.Extractions
+                                                  .Where(e => e.AccountId == destinationAccount.Id &&
+                                                  e.DateExtraction.Month == DateTime.Now.Month)
+                                                  .Sum(e => e.amount);
 
-        //var totalAmountOperationsDA = totalAmountOperationsDATransfers + totalAmountOperationsDADeposits + totalAmountOperationsDAExtractions;
+        var totalAmountOperationsDA = totalAmountOperationsDATransfers + totalAmountOperationsDADeposits + totalAmountOperationsDAExtractions;
 
-        //if ((model.Amount + totalAmountOperationsDA) > destinationAccount.CurrentAccount!.OperationalLimit)
-        //{
-        //    throw new Exception("DestinationAccount exceeded the operational limit.");
-        //}
+        if ((model.Amount + totalAmountOperationsDA) > destinationAccount.CurrentAccount!.OperationalLimit)
+        {
+            throw new Exception("DestinationAccount exceeded the operational limit.");
+        }
 
         // Add the movement to the database
         _context.Movements.Add(movement);

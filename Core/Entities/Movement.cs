@@ -14,5 +14,4 @@ public class Movement
         public int OriginalAccountId { get; set; }
         public int DestinationAccountId { get; set; }
         public virtual Account Account { get; set; } = null!;
-        //public virtual ICollection<Deposit> Deposits { get; set; } = new List<Deposit>();
 }

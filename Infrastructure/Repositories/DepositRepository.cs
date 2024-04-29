@@ -37,13 +37,43 @@ public class DepositRepository : IDepositRepository
 
         _context.Deposits.Add(deposit);
 
-        var originalAccount = await _context.Accounts.FindAsync(model.AccountId);
-        originalAccount.Balance += model.amount;
+        var account = await _context.Accounts
+                                  .Include(a => a.Currency)
+                                  .Include(a => a.CurrentAccount)
+                                  .Include(a => a.SavingAccount)
+                                  .Include(a => a.Customer)
+                                  .ThenInclude(c => c.Bank)
+                                  .SingleOrDefaultAsync(a => a.Id == model.AccountId);
+        account.Balance += model.amount;
 
-        //if (originalAccount.Type == AccountType.Current)
-        //{
-        //    originalAccount.CurrentAccount!.OperationalLimit += model.amount;
-        //}
+
+
+        if (account.CurrentAccount != null && model.amount > account.CurrentAccount.OperationalLimit)
+        {
+            throw new Exception("The operation exceeds the operational limit.");
+        }
+
+        var totalAmountOperationsTransfers = _context.Movements
+                                                            .Where(t => t.OriginalAccountId == account.Id &&
+                                                            t.TransferredDateTime.Value.Month == DateTime.Now.Month)
+                                                            .Sum(t => t.Amount);
+
+        var totalAmountOperationsDeposits = _context.Deposits
+                                                             .Where(d => d.AccountId == account.Id &&
+                                                             d.DateOperation.Month == DateTime.Now.Month)
+                                                             .Sum(d => d.amount);
+
+        var totalAmountOperationsExtractions = _context.Extractions
+                                                              .Where(e => e.AccountId == account.Id &&
+                                                              e.DateExtraction.Month == DateTime.Now.Month)
+                                                              .Sum(e => e.amount);
+
+        var totalAmountOperations = totalAmountOperationsTransfers + totalAmountOperationsDeposits + totalAmountOperationsExtractions;
+
+        if ((model.amount + totalAmountOperations) > account.CurrentAccount!.OperationalLimit)
+        {
+            throw new Exception("Account exceeded the operational limit.");
+        }
 
         await _context.SaveChangesAsync();
 

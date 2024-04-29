@@ -50,6 +50,7 @@ public class AccountRepository : IAccountRepository
         var createdAccount = await _context.Accounts
             .Include(a => a.Currency)
             .Include(a => a.Customer)
+            .ThenInclude(a => a.Bank)
             .Include(a => a.SavingAccount)
             .Include(a => a.CurrentAccount)
             .AsNoTracking()
